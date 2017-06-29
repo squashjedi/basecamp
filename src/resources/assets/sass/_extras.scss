@@ -1,0 +1,83 @@
+.panel {
+	&.admin-user {
+		.panel-heading {
+			border-bottom: 1px solid $laravel-border-color;
+		}
+	}
+	.panel-heading {
+		border-bottom: 0;
+		.panel-title {
+			 font-size: 36px;
+		}
+	}
+	.signup-controls {
+		margin-top: 40px;
+	}
+}
+
+.btn-facebook {
+	background: $brand-facebook;
+	border: 1px solid darken($brand-facebook, 10%);
+	color: #fff;
+	&:hover, &:focus {
+		color: #fff;
+		background: darken($brand-facebook, 10%);
+	}
+}
+.btn-twitter {
+	background: $brand-twitter;
+	border: 1px solid darken($brand-twitter, 10%);
+	color: #fff;
+	&:hover, &:focus {
+		color: #fff;
+		background: darken($brand-twitter, 10%);
+	}
+}
+.border-right {
+	border-right: none;
+}
+.paginator {
+	text-align: center;
+	margin-right: 0;
+	.total {
+		display: block;
+		margin-bottom: 5px;
+	}
+}
+
+@media (min-width: $screen-md-min) {
+	.panel {
+		.signup-controls {
+			margin-top: 27px;
+		}
+	}
+	.border-right {
+		border-right: 1px solid $laravel-border-color;
+	}
+	.btn-facebook, .btn-twitter {
+		text-align: left;
+	}
+	.paginator {
+		text-align: right;
+		margin-bottom: 0;
+	}
+}
+
+@media (min-width: $screen-sm-min) {
+	.navbar-default {
+		background-color: transparent;
+		border-color: transparent;
+	}
+	.navbar-right {
+	    margin-right: 0;
+	}
+	.navbar-nav > li {
+    	padding-right: 0 !important;
+	}
+	.paginator {
+		.total {
+			display: inline-block;
+			margin-bottom: 0;
+		}
+	}
+}
