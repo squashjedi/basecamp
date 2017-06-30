@@ -2,7 +2,11 @@
 
 ## About Basecamp
 
-Basecamp provides a great starting place for your Laravel project. It has with a fluent interface to OAuth authentication with Facebook, an area for logged in users to update their settings and a webmaster's users admin panel.
+Basecamp provides a great starting place for your Laravel project with all of the following:-
+* It has a fluent interface to OAuth authentication with Facebook using the Laravel Socialite package.
+* Built in emails to authenticate users, password resets, resend validation code and a welcome email.
+* An area for logged in users to update their settings
+* A webmaster's admin panel to crud users using an API.
 
 ## Install
 
@@ -14,7 +18,7 @@ composer require squashjedi/basecamp
 
 ### Configuration
 
-After installing the Basecamp library, register the Squashjedi\Basecamp\BasecampServiceProvider in your config/app.php configuration file:
+After installing the Basecamp library, register the `Squashjedi\Basecamp\BasecampServiceProvider` in your `config/app.php` configuration file:
 
 ``` bash
 'providers' => [
@@ -24,7 +28,7 @@ After installing the Basecamp library, register the Squashjedi\Basecamp\Basecamp
 ],
 ```
 
-You will also need to add credentials for the OAuth services your application utilises. These credentials should be placed in your config/services.php configuration file and should use the key facebook. For example:
+You will also need to add credentials for the OAuth services your application utilises. These credentials should be placed in your `config/services.php` configuration file and should use the key `facebook`. For example:
 
 ``` bash
 'facebook' => [
@@ -45,7 +49,7 @@ npm install
 npm install font-awesome
 ```
 
-Add these Vue components in resources/assets/js/app.js:
+Add these Vue components in `resources/assets/js/app.js`:
 ``` bash
 Vue.component('app-pagination',
 	require('./components/vendor/squashjedi/basecamp/Pagination.vue'));
@@ -67,7 +71,7 @@ Vue.component('app-user-settings-password-modal',
 	require('./components/vendor/squashjedi/basecamp/user/settings/PasswordModal.vue'));
 ```
 
-Add these at the bottom of resources/assets/sass/app.scss:
+Add these at the bottom of `resources/assets/sass/app.scss`:
 ``` bash
 // Font Awesome
 @import "node_modules/font-awesome/scss/font-awesome.scss";
@@ -84,11 +88,11 @@ Run the following commands:
 npm run dev
 ```
 
-Delete: resources/views/welcome.blade.php
+Delete `resources/views/welcome.blade.php`
 
-Delete: all routes in routes/web.php
+Delete: all routes in `routes/web.php`
 
-Replace app/User.php with:
+Replace `app/User.php` with:
 ``` bash
 <?php
 
@@ -160,7 +164,7 @@ class User extends Authenticatable
 }
 ```
 
-Create a new file app/Http/Middleware/AuthWebmaster.php with the following content:
+Create a new file `app/Http/Middleware/AuthWebmaster.php` with the following content:
 ``` bash
 <?php
 
@@ -198,21 +202,21 @@ class AuthWebmaster
 }
 ```
 
-Add the following to resources/lang/en/validation.php:
-``` bash
-return [
-    // Other error messages...
-
-    'password_match'        => 'This doesn\'t match your current password',
-];
-```
-
-Then finally add this towards the bottom of app/Http/Kernel.php:
+Add this towards the bottom of `app/Http/Kernel.php`:
 ``` bash
 protected $routeMiddleware = [
     // Other middlewares...
 
     'auth.webmaster' => \App\Http\Middleware\AuthWebmaster::class,
+];
+```
+
+Then finally add the following to `resources/lang/en/validation.php`:
+``` bash
+return [
+    // Other error messages...
+
+    'password_match'        => 'This doesn\'t match your current password',
 ];
 ```
 
