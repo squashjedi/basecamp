@@ -91,7 +91,7 @@ npm run dev
 
 Delete `resources/views/welcome.blade.php`
 
-Delete: all routes in `routes/web.php`
+Delete all routes in `routes/web.php`
 
 Replace `app/User.php` with:
 ``` bash
