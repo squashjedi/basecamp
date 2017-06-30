@@ -23,7 +23,7 @@ via Composer
 composer require squashjedi/basecamp
 ```
 
-### Configuration
+## Configuration
 
 After installing the Basecamp library, register `Squashjedi\Basecamp\BasecampServiceProvider::class` in your `config/app.php` configuration file:
 
@@ -225,7 +225,7 @@ return [
 ];
 ```
 
-### Usage
+## Usage
 
 The database seed creates 1000 users.
 
