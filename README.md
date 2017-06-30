@@ -3,7 +3,7 @@
 ## About Basecamp
 
 Basecamp provides a great starting place for your Laravel project with all of the following:-
-* It has a fluent interface to OAuth authentication with Facebook using the Laravel Socialite package.
+* It has a fluent interface to OAuth authentication with Facebook using the [Laravel Socialite](https://github.com/laravel/socialite) package.
 * Built in emails to authenticate users, password resets, resend validation code and a welcome email.
 * An area for logged in users to update their settings.
 * A webmaster's admin panel to CRUD Users.
