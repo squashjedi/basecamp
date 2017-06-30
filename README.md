@@ -40,7 +40,7 @@ php artisan vendor:publish --tag=basecamp-views
 php artisan vendor:publish --tag=basecamp-components
 php artisan vendor:publish --tag=basecamp-sass
 php artisan migrate
-php artisan db:seed --class="Squashjedi\\Basecamp\\DatabaseSeeder" (N.B. this is optional)
+php artisan db:seed --class="Squashjedi\\Basecamp\\DatabaseSeeder"
 npm install
 npm install font-awesome
 ```
