@@ -229,7 +229,7 @@ return [
 
 The database seed creates 1000 users.
 
-Webmaster log in details are:
+The webmaster's login details are:
 ``` bash
 Email: me@example.com
 Password: 123456
