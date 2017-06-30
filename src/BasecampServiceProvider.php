@@ -25,13 +25,9 @@ class BasecampServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/resources/views' => resource_path('views/vendor/squashjedi/basecamp'),
-        ], 'basecamp-views');
-        $this->publishes([
             __DIR__.'/resources/assets/js/components' => base_path('resources/assets/js/components/vendor/squashjedi/basecamp'),
-        ], 'basecamp-components');
-        $this->publishes([
-            __DIR__.'/resources/assets/sass' => base_path('resources/assets/sass/vendor/squashjedi/basecamp'),
-        ], 'basecamp-sass');
+            __DIR__.'/resources/assets/sass' => base_path('resources/assets/sass/vendor/squashjedi/basecamp')
+        ], 'basecamp');
     }
 
     /**
