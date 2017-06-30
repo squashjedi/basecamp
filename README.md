@@ -47,9 +47,7 @@ You will also need to add credentials for the OAuth services your application ut
 
 Run the following commands:
 ``` bash
-php artisan vendor:publish --tag=basecamp-views
-php artisan vendor:publish --tag=basecamp-components
-php artisan vendor:publish --tag=basecamp-sass
+php artisan vendor:publish --tag=basecamp
 php artisan migrate
 php artisan db:seed --class="Squashjedi\\Basecamp\\DatabaseSeeder"
 npm install
