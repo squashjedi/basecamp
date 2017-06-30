@@ -198,7 +198,7 @@ class AuthWebmaster
 }
 ```
 
-Add the following to resources/assets/lang/en/validation.php:
+Add the following to resources/lang/en/validation.php:
 ``` bash
 return [
     // Other error messages...
