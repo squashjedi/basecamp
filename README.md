@@ -88,7 +88,7 @@ Add these at the bottom of `resources/assets/sass/app.scss`:
 @import "vendor/squashjedi/basecamp/extras";
 ```
 
-Run the following commands:
+Run the following command:
 ``` bash
 npm run dev
 ```
