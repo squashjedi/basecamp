@@ -225,6 +225,16 @@ return [
 ];
 ```
 
+### Usage
+
+The database seed creates 1000 users.
+
+Webmaster log in details are:
+``` bash
+Email: me@example.com
+Password: 123456
+```
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
