@@ -8,7 +8,7 @@ use Auth;
 use Socialite;
 use Mail;
 use Squashjedi\Basecamp\App\Mail\Welcome;
-use Squashjedi\Basecamp\App\User;
+use App\User;
 use Squashjedi\Basecamp\App\Social;
 
 class OAuthController extends Controller

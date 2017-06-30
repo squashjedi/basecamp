@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 use Auth;
 use Socialite;
-use Squashjedi\Basecamp\App\User;
+use App\User;
 
 class LoginController extends Controller
 {
