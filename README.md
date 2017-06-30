@@ -1,4 +1,10 @@
-# Basecamp
+<p align="center">Basecamp</p>
+
+<p align="center">
+<a href="https://packagist.org/packages/squashjedi/basecamp"><img src="https://poser.pugx.org/squashjedi/basecamp/d/total.svg" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/squashjedi/basecamp"><img src="https://poser.pugx.org/squashjedi/basecamp/v/stable.svg" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/squashjedi/basecamp"><img src="https://poser.pugx.org/squashjedi/basecamp/license.svg" alt="License"></a>
+</p>
 
 ## About Basecamp
 
