@@ -1,4 +1,4 @@
-<p align="center">Basecamp</p>
+<h1 align="center">Basecamp</h1>
 
 <p align="center">
 <a href="https://packagist.org/packages/squashjedi/basecamp"><img src="https://poser.pugx.org/squashjedi/basecamp/d/total.svg" alt="Total Downloads"></a>
