@@ -18,7 +18,7 @@ composer require squashjedi/basecamp
 
 ### Configuration
 
-After installing the Basecamp library, register the `Squashjedi\Basecamp\BasecampServiceProvider` in your `config/app.php` configuration file:
+After installing the Basecamp library, register `Squashjedi\Basecamp\BasecampServiceProvider::class` in your `config/app.php` configuration file:
 
 ``` bash
 'providers' => [
