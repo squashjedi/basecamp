@@ -8,10 +8,11 @@ use App\Http\Controllers\Controller;
 use Squashjedi\Basecamp\App\Http\Repositories\User\UserRepositoryInterface;
 
 use Squashjedi\Basecamp\App\Http\Requests\ResetPassword;
+use Squashjedi\Basecamp\App\Http\Requests\ResetPasswordForgot;
 use Squashjedi\Basecamp\App\Http\Requests\ResetPasswordModal;
-use Squashjedi\Basecamp\App\Mail\PasswordCode as EmailCode;
+use Squashjedi\Basecamp\App\Mail\PasswordReset as MailReset;
 use Squashjedi\Basecamp\App\Mail\PasswordUpdated;
-use Squashjedi\Basecamp\App\PasswordCode;
+use Squashjedi\Basecamp\App\PasswordReset;
 use App\User;
 use Hash;
 use Illuminate\Support\Facades\Password;
@@ -40,19 +41,20 @@ class PasswordController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function sendModal(Request $request)
+    public function send(Request $request)
     {
-        $reset = PasswordCode::firstOrCreate([
+        $reset = PasswordReset::firstOrCreate([
                 'email' => $request->email
             ], [
-                'code' => sprintf("%06d", mt_rand(1, 999999)),
+                'token' => str_random(60),
                 'created_at' => date('Y-m-d H:i:s')
             ]);
 
         $user = User::find($request->input('id'));
-        Mail::to($request->email)->queue(new EmailCode($user));
+
+        Mail::to($request->email)->queue(new MailReset($user));
         return Response::json([
-                'success' => 'code',
+                'success' => 'Please check your email for the password reset link.',
             ], 200);
     }
 
@@ -62,10 +64,10 @@ class PasswordController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function codeModal(Request $request)
+    public function reset(Request $request)
     {
-        if ($request->input('code') == PasswordCode::where('email', $request->input('email'))->first()->code) {
-            PasswordCode::where('code', $request->input('code'))->delete();
+        if ($request->input('token') == PasswordReset::where('email', $request->input('email'))->first()->token) {
+            PasswordReset::where('token', $request->input('token'))->delete();
             return Response::json([
                     'success' => 'password',
                 ], 200);
@@ -122,6 +124,27 @@ class PasswordController extends Controller
             ], 200);
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateForgot(Request $request)
+    {
+        $form = new ResetPasswordForgot;
+        $errors = $this->validation($form, $request);
+        if ($errors) return $errors;
+
+        $this->updatePasswordEmail($request);
+        $this->deletePasswordReset($request);
+
+        return Response::json([
+                'success' => 'updated',
+            ], 200);
+    }
+
     public function updatePasswordEmail(Request $request)
     {
         $user = User::find($request->input('id'));
@@ -129,6 +152,11 @@ class PasswordController extends Controller
         $user->save();
 
         Mail::to($request->input('email'))->queue(new PasswordUpdated($user));
+    }
+
+    public function deletePasswordReset(Request $request)
+    {
+        return PasswordReset::where('email', $request->input('email'))->delete();
     }
 
 }

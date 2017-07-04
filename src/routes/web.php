@@ -31,7 +31,10 @@ Route::namespace('Squashjedi\Basecamp\App\Http\Controllers')->group(function() {
 
 		Route::get('/user/settings', 'User\Settings\AccountController@edit')->name('settings');
 		Route::get('/user/settings/account', 'User\Settings\AccountController@edit')->name('settings.account');
+		Route::get('/user/settings/account/deactivate', 'User\Settings\Account\DeactivateController@edit')->name('settings.account.deactivate');
 		Route::get('/user/settings/password', 'User\Settings\PasswordController@edit')->name('settings.password');
+		Route::get('/user/settings/password/forgot', 'User\Settings\Password\ForgotController@edit')->name('settings.password.forgot');
+		Route::get('/user/settings/password/forgot/{email}/{code}', 'User\Settings\Password\Forgot\ResetController@edit')->name('settings.password.reset');
 
 		Route::resource('/admin/users', 'Admin\UsersController', ['names' => [
 			    'index' => 'admin.users'
@@ -41,9 +44,11 @@ Route::namespace('Squashjedi\Basecamp\App\Http\Controllers')->group(function() {
 
 	Route::resource('/api/admin/v1/users', 'Api\Admin\UsersController');
 	Route::resource('/api/user/settings/v1/account', 'Api\User\Settings\AccountController');
-	Route::post('/api/user/settings/v1/password/send-modal', 'Api\User\Settings\PasswordController@sendModal');
+	Route::post('/api/user/settings/v1/account/deactivate', 'Api\User\Settings\Account\DeactivateController@update');
+	Route::post('/api/user/settings/v1/password/send', 'Api\User\Settings\PasswordController@send');
 	Route::post('/api/user/settings/v1/password/code-modal', 'Api\User\Settings\PasswordController@codeModal');
 	Route::post('/api/user/settings/v1/password/update-modal', 'Api\User\Settings\PasswordController@updateModal');
 	Route::post('/api/user/settings/v1/password/update', 'Api\User\Settings\PasswordController@update');
+	Route::post('/api/user/settings/v1/password/update-forgot', 'Api\User\Settings\PasswordController@updateForgot');
 
 });

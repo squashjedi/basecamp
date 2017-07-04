@@ -84,10 +84,10 @@ class UsersController extends Controller
     public function destroy($ids)
     {
         $ids = $this->userRepo->destroy($ids);
-        $grammar = count($ids) == 1 ? 'record has' : 'records have';
+        $grammar = count($ids) == 1 ? 'User' : 'Users';
 
         return Response::json([
-                'success' => 'The ' . $grammar . ' been deleted permanently!'
+                'success' => $grammar . ' deleted.'
             ], 200);
     }
 

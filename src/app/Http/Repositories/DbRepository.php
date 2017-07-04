@@ -25,7 +25,7 @@ abstract class DbRepository {
     public function destroy($ids)
     {
         $ids = explode(",", $ids);
-        $this->model->destroy($ids);
+        $this->model->withTrashed()->whereIn('id', $ids)->forceDelete();
         return $ids;
     }
 

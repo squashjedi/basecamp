@@ -1,6 +1,6 @@
 @component('mail::message')
 
-Welcome to {{ config('app.name') }}!
+Your account has been reactivated!
 
 Regards,<br>
 {{ config('app.name') }}

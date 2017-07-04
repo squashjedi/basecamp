@@ -4,14 +4,14 @@ namespace Squashjedi\Basecamp\App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PasswordCode extends Model
+class PasswordReset extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'password_codes';
+    protected $table = 'password_resets';
 
     public function setUpdatedAt($value) {
         // Do Nothing
@@ -23,6 +23,6 @@ class PasswordCode extends Model
      * @var array
      */
     protected $fillable = [
-        'email', 'code'
+        'email', 'token'
     ];
 }

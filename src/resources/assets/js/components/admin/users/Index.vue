@@ -6,10 +6,12 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div class="panel-title">Users <button type="button" data-toggle="modal" data-target="#appModalCreate" class="btn btn-primary" @click="clearModalData"><i class="fa fa-plus" aria-hidden="true"></i> New</button></div>
+                    <div class="panel-title">
+                        Users <a href="/admin/users/create" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> New</a>
+                    </div>
                 </div>
                 <div class="panel-body">
-                    <app-alert v-if="isAlert" :message="alertMessage"></app-alert>
+                    <squashjedi-basecamp-notify v-if="isAlert" :message="alertMessage"></squashjedi-basecamp-notify>
                     <app-pagination :recordset="recordset" @recordset-changed="getResults"></app-pagination>
                 </div>
                 <div class="table-responsive">
@@ -26,6 +28,13 @@
                                 <th><input type="text" class="form-control" v-model="filterObj.email" @keyup="filter" @focus="isAlert = false"></th>
                                 <th>
                                     <select class="form-control" v-model="filterObj.verified" @change="filter">
+                                        <option value="%">All</option>
+                                        <option value="0">No</option>
+                                        <option value="1">Yes</option>
+                                    </select>
+                                </th>
+                                <th>
+                                    <select class="form-control" v-model="filterObj.deleted_at" @change="filter">
                                         <option value="%">All</option>
                                         <option value="0">No</option>
                                         <option value="1">Yes</option>
@@ -62,17 +71,27 @@
                                             'fa fa-sort-desc': column.verified === 'desc',
                                             'fa fa-sort': column.verified === ''}"
                                         aria-hidden="true"></i> Verified</th>
+                                <th @click="sort('deleted_at')">
+                                    <i
+                                        :class="{
+                                            'fa fa-sort-asc': column.deleted_at === 'asc',
+                                            'fa fa-sort-desc': column.deleted_at === 'desc',
+                                            'fa fa-sort': column.deleted_at === ''}"
+                                        aria-hidden="true"></i> Deactivated</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="user, index in recordset.data" @mouseenter="recordMenu = user.id" @mouseleave="recordMenu = 0">
-                                <td class="text-center delete-checkbox"><input type="checkbox" :value="user.id" v-model="checkboxIds" @change="toggleCheckbox"></td>
+                                <td class="text-center delete-checkbox"><input type="checkbox" v-if="user.id !== 1" :value="user.id" v-model="checkboxIds" @change="toggleCheckbox"></td>
                                 <td>
                                     <div>{{ user.id }}</div>
                                     <div class="small">
                                         <span v-if="recordMenu === user.id">
-                                            <a data-toggle="modal" data-target="#appModalUpdate" @click="getRecord(user)">Edit</a> |
-                                            <a data-toggle="modal" data-target="#appModal" @click="getRecord(user)">Delete</a>
+                                            <a data-toggle="modal" data-target="#appModalUpdate" @click="getRecord(user)">Edit</a>
+                                            <template v-if="user.id !== 1">
+                                                 | <a data-toggle="modal" data-target="#appModal" @click="getRecord(user)">Delete</a>
+                                            </template>
+                                            
                                         </span>
                                         <span v-else>&nbsp;</span>
                                     </div>
@@ -80,6 +99,7 @@
                                 <td>{{ user.name }}</td>
                                 <td>{{ user.email }}</td>
                                 <td>{{ user.verified ? 'Yes' : 'No' }}</td>
+                                <td>{{ user.deleted_at ? user.deleted_at : 'No' }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -106,16 +126,18 @@
                 },
                 recordset: {},
                 column: {
-                    id: 'asc',
+                    id: 'desc',
                     name: '',
                     email: '',
-                    verified: ''
+                    verified: '',
+                    deleted_at: ''
                 },
                 filterObj: {
                     id: '',
                     name: '',
                     email: '',
                     verified: '%',
+                    deleted_at: '%',
                     items: {},
                     filter: ''
                 },
@@ -125,12 +147,13 @@
                     email: '',
                     password: '',
                     passwordConfirmation: '',
-                    verified: ''
+                    verified: '',
+                    deleted_at: ''
                 },
                 checkboxIds: [],
                 clearData: true,
                 recordMenu: '',
-                sortColumn: '',
+                sortColumn: '-id',
                 alertMessage: '',
                 delayAlert: '',
                 id: 0,
@@ -164,6 +187,7 @@
                 this.user.password = user.password;
                 this.user.passwordConfirmation = user.password;
                 this.user.verified = user.verified;
+                this.user.deleted_at = user.deleted_at;
             },
             toggleCheckboxes() {
                 clearTimeout(this.delayAlert);
@@ -272,7 +296,11 @@
             },
             updateCheckboxes() {
                 if (this.isParentCheckbox) {
-                    this.recordset.data.forEach(user => this.checkboxIds.push(user.id));
+                    this.recordset.data.forEach((user) => {
+                        if (user.id !== 1) {
+                            return this.checkboxIds.push(user.id);
+                        }
+                    });
                 } else {
                     this.checkboxIds = [];
                 }
@@ -333,7 +361,21 @@
     }
 </script>
 
-<style scoped>
+<style>
+    .modal {
+        overflow-y: auto;
+    }
+
+    .modal-open {
+        overflow: auto;
+    }
+
+    .modal-open[style] {
+        padding-right: 0px !important;
+    }
+    .panel-title > a {
+        color: #fff !important;
+    }
     .fa-sort, .fa-sort-asc, .fa-sort-desc {
         color: #b00;
     }
@@ -342,7 +384,6 @@
     }
     a {
         cursor: pointer;
-        text-decoration: none;
     }
     th {
         color: #333;

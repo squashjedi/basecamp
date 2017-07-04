@@ -9,20 +9,16 @@
         <div class="col-md-9">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div class="panel-title">Account</div>
+                    <div class="panel-title">Forgot Your Password?</div>
                 </div>
                 <div class="panel-body">
-                    <app-user-settings-account :user="{{ Auth::user() }}"></app-user-settings-account>
-                </div>
-                <div class="panel-footer text-center">
-                    <a href="{{ route('settings.account.deactivate') }}">Deactivate My Account</a>
+
+                    @include('squashjedi/basecamp::alert')
+                    
+                    <squashjedi-basecamp-settings-password-forgot :user="{{ Auth::user() }}"></squashjedi-basecamp-settings-password-forgot>
                 </div>
             </div>
         </div>
     </div>
 </div>
-@endsection
-
-@section('scripts')
-    @include('squashjedi/basecamp::partials.clean-facebook-url')
 @endsection

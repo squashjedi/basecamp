@@ -10,6 +10,7 @@ use Mail;
 use Squashjedi\Basecamp\App\Mail\Welcome;
 use App\User;
 use Squashjedi\Basecamp\App\Social;
+use Squashjedi\Basecamp\App\Http\Repositories\User\UserRepositoryInterface;
 
 class OAuthController extends Controller
 {
@@ -20,13 +21,16 @@ class OAuthController extends Controller
      */
     protected $redirectTo = '/admin/users';
 
+    public $user;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(UserRepositoryInterface $user)
     {
+        $this->user = $user;
         $this->middleware('guest');
     }
 
@@ -82,6 +86,11 @@ class OAuthController extends Controller
             if ($authUser->verified == false) {
                 User::where(['email' => $user->email])->update(['verified' => true]);
             }
+            return $authUser;
+        }
+        $authUser = User::withTrashed()->where(['email' => $user->email])->first();
+        if ($authUser) {
+            $this->user->reactivateOAuthAccount($authUser);
             return $authUser;
         }
 

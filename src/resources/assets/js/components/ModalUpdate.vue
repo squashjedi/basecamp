@@ -45,6 +45,15 @@
                                 <input type="radio" id="0" value="0" v-model="user.verified"> No
                             </label>
                         </div>
+                        <div class="form-group" :class="{ 'has-error': errors.deleted_at }">
+                            <label for="deleted_at" class="control-label">Deactivated</label>
+                            <div class="input-group date">
+                                <input type="text" class="form-control input-lg" v-model="user.deletedAt">
+                            </div>
+                            <span v-if="errors.deleted_at" class="help-block">
+                                <strong>{{ errors.deleted_at[0] }}</strong>
+                            </span>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <template>
@@ -63,12 +72,15 @@
         mounted() {
             console.log('Component mounted.');
             $(this.$refs.vuemodalupdate).on('hidden.bs.modal', this.empty);
+            $(this.$refs.vuemodalupdate).on('shown.bs.modal', function () {
+                $('.date').datepicker();
+            });
         },
         props: ['clearData', 'user'],
         data() {
             return {
                 errors: '',
-                isDisabled: false,
+                isDisabled: false
             }
         },
         methods: {
@@ -80,7 +92,8 @@
                     email: this.user.email,
                     password: this.user.password,
                     passwordConfirmation: this.user.passwordConfirmation,
-                    verified: this.user.verified
+                    verified: this.user.verified,
+                    deletedAt: this.user.deletedAt
                 })
                 .then(response => {
                     if (response.data.success) {

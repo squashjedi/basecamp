@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddVerifiedAndVerifyTokenToUsersTable extends Migration
+class AddVerifiedAndVerifyTokenAndDeletedAtToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,6 +16,7 @@ class AddVerifiedAndVerifyTokenToUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->boolean('verified')->default(false);
             $table->string('verify_token')->nullable();
+            $table->timestamp('deleted_at')->nullable();;
         });
     }
 

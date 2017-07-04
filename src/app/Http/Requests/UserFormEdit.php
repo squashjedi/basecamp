@@ -27,7 +27,8 @@ class UserFormEdit extends FormRequest
         return [
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . Request::input('id'),
-            'password' => 'required_with:passwordConfirmation|min:6|same:passwordConfirmation'
+            'password' => 'required_with:passwordConfirmation|min:6|same:passwordConfirmation',
+            'deleted_at' => 'nullable|date'
         ];
     }
 
@@ -40,7 +41,8 @@ class UserFormEdit extends FormRequest
             'email.email' => 'Must be a valid email',
             'password.min' => 'Must be at least 6 characters',
             'password.same' => 'Passwords do not match',
-            'password.required' => 'Password is required'
+            'password.required' => 'Password is required',
+            'deleted_at.date' => 'Use format yyyy-mm-dd hh:mm:ss'
         ];
     }
 }

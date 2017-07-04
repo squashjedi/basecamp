@@ -24,7 +24,17 @@ class UsersController extends Controller
      */
     public function index()
     {
-        return view('squashjedi/basecamp::admin.users');
+        return view('squashjedi/basecamp::admin.users.index');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('squashjedi/basecamp::admin.users.create');
     }
 
 }

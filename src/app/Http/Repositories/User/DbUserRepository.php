@@ -8,6 +8,8 @@ use App\User;
 use App\Transaction;
 use Squashjedi\Basecamp\App\Http\Repositories\DbRepository;
 use Illuminate\Support\Facades\Hash;
+use Mail;
+use Squashjedi\Basecamp\App\Mail\Reactivated;
 
 class DbUserRepository extends DbRepository implements UserRepositoryInterface {
 
@@ -25,7 +27,7 @@ class DbUserRepository extends DbRepository implements UserRepositoryInterface {
 
 	public function getPaginate($request)
 	{
-        $query = User::query();
+        $query = User::query()->withTrashed();
 
         if ($request->has('filter')) {
             $filters = explode(',', $request->input('filter'));
@@ -33,7 +35,14 @@ class DbUserRepository extends DbRepository implements UserRepositoryInterface {
                 list($criteria, $value) = explode(':', $filter);
                 if ($criteria == 'id') {
                     $query->where($criteria, $value);
-                } else {
+                } else if ($criteria == 'deleted_at') {
+                    if ($value == '%') {
+                    } else if ($value == 0) {
+                        $query->whereNull($criteria);
+                    } else {
+                        $query->whereNotNull($criteria);
+                    }
+                }else {
                     $query->where($criteria, 'LIKE', '%' . $value . '%');
                 }
             }
@@ -64,13 +73,14 @@ class DbUserRepository extends DbRepository implements UserRepositoryInterface {
     }
 
     public function update($request)
-    {
+    {dd($request->all());
         $id = $request->input('id');
-        $user = User::find($id)->update([
+        $user = User::withTrashed()->find($id)->update([
                         'verified' => $request->input('verified'),
                         'name' => $request->input('name'),
                         'email' => $request->input('email'),
                         'verify_token' => str_random(60),
+                        'deleted_at' => $request->input('deleted_at')
                     ]);
         if ($request->input('password')) {
             $user = User::find($id)->update([
@@ -92,12 +102,39 @@ class DbUserRepository extends DbRepository implements UserRepositoryInterface {
             $verified = $user['verified'];
         }
         $user = User::find($id)->update([
-                        'verified' => $verified,
-                        'name' => $request->input('name'),
-                        'email' => $request->input('email'),
-                        'verify_token' => str_random(60),
-                    ]);
+                'verified' => $verified,
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'verify_token' => str_random(60),
+            ]);
         return User::find($id);
+    }
+
+    public function deactivateAccount($request)
+    {
+        $id = $request->input('id');
+        return User::find($id)->delete();
+    }
+
+    public function reactivateAccount($request)
+    {
+        $user = User::withTrashed()->where('email', $request->input('email'))->first();
+        if (Hash::check($request->input('password'), $user->password) && $user->deleted_at != null) {
+            Mail::to($user->email)->queue(new Reactivated($user));
+            User::withTrashed()
+                ->where('email', $request->input('email'))
+                ->update(['deleted_at' => null]);
+        }
+        return;
+    }
+
+    public function reactivateOAuthAccount($request)
+    {
+        if ($user = User::withTrashed()->where('email', $request->email)->where('deleted_at', '!=', null)->first()) {
+            Mail::to($user->email)->queue(new Reactivated($user));
+            User::withTrashed()->where('email', $request->email)->update(['deleted_at' => null]);
+        }
+        return;
     }
 
 }

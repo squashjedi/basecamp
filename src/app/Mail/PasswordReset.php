@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 use App\User;
 
-class PasswordCode extends Mailable
+class PasswordReset extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -33,7 +33,7 @@ class PasswordCode extends Mailable
     public function build()
     {
         return $this
-            ->subject(config('app.name') . ': Reset Password Code')
-            ->markdown('squashjedi/basecamp::email.password-code');
+            ->subject(config('app.name') . ': Password Reset Link')
+            ->markdown('squashjedi/basecamp::email.password-reset');
     }
 }

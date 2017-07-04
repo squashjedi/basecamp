@@ -73,6 +73,7 @@
                     password: '',
                     passwordConfirmation: '',
                     verified: 1,
+                    deleted_at: '',
                     errors: '',
                 },
                 isDisabled: false,
@@ -86,7 +87,8 @@
                     email: this.user.email,
                     password: this.user.password,
                     passwordConfirmation: this.user.passwordConfirmation,
-                    verified: this.user.verified
+                    verified: this.user.verified,
+                    deleted_at: this.user.deleted_at
                 })
                 .then(response => {
                     if (response.data.success) {
@@ -106,6 +108,7 @@
                 this.user.password = '';
                 this.user.passwordConfirmation = '';
                 this.user.verified = 1;
+                this.user.deleted_at = '';
                 this.user.errors = '';
             }
         }

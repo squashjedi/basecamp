@@ -5,7 +5,7 @@ namespace Squashjedi\Basecamp\App\Http\Requests;
 use Request;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ResetPasswordModal extends FormRequest
+class ResetPasswordForgot extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

@@ -6,9 +6,13 @@
 	}
 	.panel-heading {
 		border-bottom: 0;
+		padding: 15px 15px 0 15px;
 		.panel-title {
 			 font-size: 36px;
 		}
+	}
+	.panel-footer {
+		background-color: #fff;
 	}
 	.signup-controls {
 		margin-top: 40px;
