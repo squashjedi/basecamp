@@ -69,11 +69,12 @@ class DbUserRepository extends DbRepository implements UserRepositoryInterface {
                 'email' => $request->input('email'),
                 'password' => bcrypt($request->input('password')),
                 'verify_token' => str_random(60),
+                'deleted_at' => $request->input('deleted_at'),
             ]);
     }
 
     public function update($request)
-    {dd($request->all());
+    {
         $id = $request->input('id');
         $user = User::withTrashed()->find($id)->update([
                         'verified' => $request->input('verified'),

@@ -108,7 +108,7 @@ class PasswordController extends Controller
     {
         $form = new ResetPassword;
         Validator::extend('password_match', function($attribute, $value, $parameters, $validator) use ($request) {
-                if ( ! Hash::check($request->input('passwordCurrent'), User::where('email', $request->input('email'))->first()->password) )
+                if ( ! Hash::check($request->input('password_current'), User::where('email', $request->input('email'))->first()->password) )
                 {
                     return false;
                 }
@@ -148,7 +148,7 @@ class PasswordController extends Controller
     public function updatePasswordEmail(Request $request)
     {
         $user = User::find($request->input('id'));
-        $user->password = bcrypt($request->input('passwordNew'));
+        $user->password = bcrypt($request->input('password_new'));
         $user->save();
 
         Mail::to($request->input('email'))->queue(new PasswordUpdated($user));

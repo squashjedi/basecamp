@@ -25,18 +25,18 @@ class ResetPassword extends FormRequest
     public function rules()
     {
         return [
-            'passwordCurrent' => 'required|passwordMatch',
-            'passwordNew' => 'required:required_with:passwordConfirmation|min:6|same:passwordConfirmation'
+            'password_current' => 'required|password_match',
+            'password_new' => 'required:required_with:password_confirmation|min:6|same:password_confirmation'
         ];
     }
 
     public function messages()
     {
         return [
-            'passwordCurrent.required' => 'Current Password is required',
-            'passwordNew.min' => 'Must be at least 6 characters',
-            'passwordNew.same' => 'Passwords do not match',
-            'passwordNew.required' => 'New Password is required'
+            'password_current.required' => 'Required',
+            'password_new.min' => 'Must be at least 6 characters',
+            'password_new.same' => 'Passwords do not match',
+            'password_new.required' => 'Required'
         ];
     }
 }

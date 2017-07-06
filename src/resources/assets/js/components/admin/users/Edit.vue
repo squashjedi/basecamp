@@ -5,10 +5,10 @@
                 <div class="panel-heading">
                 	<ol class="breadcrumb">
 						<li><a href="/admin/users">Users</a></li>
-						<li class="active">Create</li>
+						<li class="active">Edit #{{ user.id }}</li>
 					</ol>
                     <div class="panel-title">
-                        Add New User
+                        Edit User
                     </div>
                 </div>
                 <div class="panel-body">
@@ -29,25 +29,19 @@
         mounted() {
             console.log('Component mounted.');
         },
+        props: ['user'],
         data() {
         	return {
-                user: {
-                    name: '',
-                    email: '',
-                    password: '',
-                    password_confirmation: '',
-                    verified: 1,
-                    deleted_at: '' 
-                },
                 errors: '',
-                is_password: true,
-                notify: '',
+                is_password: false,
+                notify: ''
         	}
         },
         methods: {
             publish(verified) {
                 clearTimeout(this.delay_notify);
-                axios.post('/api/admin/v1/users', {
+                axios.put('/api/admin/v1/users/' + this.user.id, {
+                    id: this.user.id,
                     name: this.user.name,
                     email: this.user.email,
                     password: this.user.password,
@@ -59,21 +53,15 @@
                     if (response.data.success) {
                     	this.notify = response.data.success;
                         this.delay_notify = setTimeout(() => this.notify = false, 4000);
-                        this.empty();
+                        this.errors = '';
+                        this.user.password = '';
+                        this.user.password_confirmation = '';
+                        this.is_password = false;
                     }
                     if (response.data.errors) {
                         this.errors = response.data.errors;
                     }
                 });
-            },
-            empty() {
-                this.user.name = '';
-                this.user.email = '';
-                this.user.password = '';
-                this.user.password_confirmation = '';
-                this.verified = 1;
-                this.user.deleted_at = '';
-                this.errors = '';
             }
         }
     }

@@ -9,7 +9,7 @@
                 <div class="modal-body">
                     <p>Please enter your password to deactivate your account.</p>
                     <div class="form-group" :class="{ 'has-error': errors.password }">
-                        <label for="password">Password</label>
+                        <label for="password" class="control-label">Password</label>
                         <input type="password" class="form-control input-lg" id="password" v-model="password">
                         <span v-if="errors.password" class="help-block">
                             <strong>{{ errors.password }}</strong>
@@ -18,8 +18,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" @click="deactivate">Deactivate Account</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button v-if="!isDeactivating" type="button" class="btn btn-primary" @click="deactivate">Deactivate Account</button>
+                    <button v-else type="button" class="btn btn-primary disabled"><i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Deactivating Account</button>
                 </div>
             </div>
         </div>
@@ -36,11 +37,13 @@
         data() {
             return {
                 password: '',
-                errors: {}
+                errors: {},
+                isDeactivating: false
             }
         },
         methods: {
             deactivate() {
+                this.isDeactivating = true;
                 axios.post('/api/user/settings/v1/account/deactivate', {
                     id: this.user.id,
                     password: this.password
@@ -54,6 +57,7 @@
                         this.success = '';
                         this.errors = response.data.errors;
                     }
+                    this.isDeactivating = false;
                 });
             },
             empty() {

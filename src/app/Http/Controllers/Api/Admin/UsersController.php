@@ -51,7 +51,7 @@ class UsersController extends Controller
         $user = $this->userRepo->create($request);
 
         return Response::json([
-                'success' => 'You have created record #' . $user->id
+                'success' => 'New User created.'
             ], 200);
     }
 
@@ -71,7 +71,7 @@ class UsersController extends Controller
         $user = $this->userRepo->update($request);
 
         return Response::json([
-                'success' => 'You have updated record #' . $id
+                'success' => 'User updated.'
             ], 200);
     }
 

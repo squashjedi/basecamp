@@ -7,7 +7,3 @@
     </div>
 </div>
 @endsection
-
-@section('scripts')
-    @include('squashjedi/basecamp::partials.clean-facebook-url')
-@endsection

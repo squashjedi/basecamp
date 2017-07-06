@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="success">
-            <div class="alert alert-success alert-dismissible" role="alert">
+            <div class="alert alert-success alert-dismissible" style="margin-bottom:0px;" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="success = false"><span aria-hidden="true">&times;</span></button>
                 {{ success }}
             </div>
@@ -10,7 +10,7 @@
             <div class="form-group">
                 Would you like an email with a password reset link?
             </div>
-            <button v-if="!isSending" type="button" class="btn btn-primary btn-lg" @click="send">Send</button>
+            <button v-if="!is_sending" type="button" class="btn btn-primary btn-lg" @click="send">Send</button>
             <button v-else type="button" class="btn btn-primary btn-lg disabled"><i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Sending</button>
         </div>
     </div>
@@ -24,13 +24,13 @@
         props: ['user'],
         data() {
             return {
-                isSending: false,
+                is_sending: false,
                 success: false
             }
         },
         methods: {
             send() {
-                this.isSending = true;
+                this.is_sending = true;
                 this.success = false;
                 axios.post('/api/user/settings/v1/password/send', {
                     id: this.user.id,
@@ -45,14 +45,9 @@
                         this.success = '';
                         this.errors = response.data.errors;
                     }
-                    this.isSending = false;
+                    this.is_sending = false;
                 });
             }
         }
     }
-
 </script>
-
-<style>
-
-</style>

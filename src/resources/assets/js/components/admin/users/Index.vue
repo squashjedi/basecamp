@@ -1,8 +1,6 @@
 <template>
     <div>
-        <app-modal-delete :content="modalContent" :ids="this.checkboxIds" @empty="empty" :user="user" @ids-deleted="getRecordset"></app-modal-delete>
-        <app-modal-create :clearData="clearData" @created="getRecordsetCreated"></app-modal-create>
-        <app-modal-update :clearData="clearData" @updated="getRecordsetUpdated" @empty="empty" :user="user"></app-modal-update>
+        <app-modal-delete :model="model" :ids="this.checkbox_ids" :user="user" @empty="empty" @ids-deleted="getRecordset"></app-modal-delete>
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -11,30 +9,30 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                    <squashjedi-basecamp-notify v-if="isAlert" :message="alertMessage"></squashjedi-basecamp-notify>
-                    <app-pagination :recordset="recordset" @recordset-changed="getResults"></app-pagination>
+                    <squashjedi-basecamp-notify v-if="notify" :message="notify"></squashjedi-basecamp-notify>
+                    <squashjedi-basecamp-pagination :recordset="recordset" @recordset-changed="getResults"></squashjedi-basecamp-pagination>
                 </div>
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
                             <tr>
                                 <th class="text-center">
-                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#appModal" :disabled="isDeleteDisabled">
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#appModal" :disabled="is_delete_disabled">
                                         <i aria-hidden="true" class="fa fa-trash"></i>
                                     </button>
                                 </th>
-                                <th><input type="text" class="form-control" v-model="filterObj.id" @keyup="filter" @focus="isAlert = false"></th>
-                                <th><input type="text" class="form-control" v-model="filterObj.name" @keyup="filter" @focus="isAlert = false"></th>
-                                <th><input type="text" class="form-control" v-model="filterObj.email" @keyup="filter" @focus="isAlert = false"></th>
+                                <th><input type="text" class="form-control" v-model="filter_obj.id" @keyup="filter"></th>
+                                <th><input type="text" class="form-control" v-model="filter_obj.name" @keyup="filter"></th>
+                                <th><input type="text" class="form-control" v-model="filter_obj.email" @keyup="filter"></th>
                                 <th>
-                                    <select class="form-control" v-model="filterObj.verified" @change="filter">
+                                    <select class="form-control" v-model="filter_obj.verified" @change="filter">
                                         <option value="%">All</option>
                                         <option value="0">No</option>
                                         <option value="1">Yes</option>
                                     </select>
                                 </th>
                                 <th>
-                                    <select class="form-control" v-model="filterObj.deleted_at" @change="filter">
+                                    <select class="form-control" v-model="filter_obj.deleted_at" @change="filter">
                                         <option value="%">All</option>
                                         <option value="0">No</option>
                                         <option value="1">Yes</option>
@@ -42,7 +40,7 @@
                                 </th>
                             </tr>
                             <tr>
-                                <th class="text-center"><input type="checkbox" v-model="isParentCheckbox" value="true" @change="toggleCheckboxes"></th>
+                                <th class="text-center"><input type="checkbox" v-model="is_parent_checkbox" value="true" @change="toggleCheckboxes"></th>
                                 <th @click="sort('id')">
                                     <i
                                         :class="{
@@ -81,13 +79,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="user, index in recordset.data" @mouseenter="recordMenu = user.id" @mouseleave="recordMenu = 0">
-                                <td class="text-center delete-checkbox"><input type="checkbox" v-if="user.id !== 1" :value="user.id" v-model="checkboxIds" @change="toggleCheckbox"></td>
+                            <tr v-for="user, index in recordset.data" @mouseenter="record_menu = user.id" @mouseleave="record_menu = 0">
+                                <td class="text-center delete-checkbox"><input type="checkbox" v-if="user.id !== 1" :value="user.id" v-model="checkbox_ids" @change="toggleCheckbox"></td>
                                 <td>
                                     <div>{{ user.id }}</div>
                                     <div class="small">
-                                        <span v-if="recordMenu === user.id">
-                                            <a data-toggle="modal" data-target="#appModalUpdate" @click="getRecord(user)">Edit</a>
+                                        <span v-if="record_menu === user.id">
+                                            <a :href="'/admin/users/' + user.id">Edit</a>
                                             <template v-if="user.id !== 1">
                                                  | <a data-toggle="modal" data-target="#appModal" @click="getRecord(user)">Delete</a>
                                             </template>
@@ -105,7 +103,7 @@
                     </table>
                 </div>
                 <div class="panel-body">
-                    <app-pagination :recordset="recordset" @recordset-changed="getResults"></app-pagination>
+                    <squashjedi-basecamp-pagination :recordset="recordset" @recordset-changed="getResults"></squashjedi-basecamp-pagination>
                 </div>
             </div>
         </div>
@@ -119,11 +117,7 @@
         },
         data() {
             return {
-                modalContent: {
-                    title: 'Delete Confirmation',
-                    body: 'Are you sure you wish to delete the following records permanently?',
-                    type: 'delete'
-                },
+                model: 'Users',
                 recordset: {},
                 column: {
                     id: 'desc',
@@ -132,7 +126,7 @@
                     verified: '',
                     deleted_at: ''
                 },
-                filterObj: {
+                filter_obj: {
                     id: '',
                     name: '',
                     email: '',
@@ -145,123 +139,87 @@
                     id: '',
                     name: '',
                     email: '',
-                    password: '',
-                    passwordConfirmation: '',
                     verified: '',
                     deleted_at: ''
                 },
-                checkboxIds: [],
-                clearData: true,
-                recordMenu: '',
-                sortColumn: '-id',
-                alertMessage: '',
-                delayAlert: '',
+                checkbox_ids: [],
+                record_menu: '',
+                sort_column: '-id',
+                delay_notify: '',
                 id: 0,
-                isParentCheckbox: false,
-                isDeleteDisabled: true,
-                isAlert: false,
+                is_parent_checkbox: false,
+                is_delete_disabled: true,
+                notify: false,
             }
         },
         methods: {
             empty() {
-                this.isParentCheckbox = false;
+                this.is_parent_checkbox = false;
                 this.user.id = '';
-                this.user.name = '';
-                this.user.email = '';
-                this.user.password = '';
-                this.user.passwordConfirmation = '';
-                this.checkboxIds = [];
-            },
-            clearModalData() {
-                clearTimeout(this.delayAlert);
-                this.isAlert = false;
+                this.checkbox_ids = [];
             },
             getRecord(user) {
-                clearTimeout(this.delayAlert);
-                this.isAlert = false;
-                this.checkboxIds = [];
-                this.isParentCheckbox = false;
+                clearTimeout(this.delay_notify);
+                this.notify = false;
+                this.checkbox_ids = [];
+                this.is_parent_checkbox = false;
                 this.user.id = user.id;
-                this.user.name = user.name;
-                this.user.email = user.email;
-                this.user.password = user.password;
-                this.user.passwordConfirmation = user.password;
-                this.user.verified = user.verified;
-                this.user.deleted_at = user.deleted_at;
             },
             toggleCheckboxes() {
-                clearTimeout(this.delayAlert);
-                this.isAlert = false;
+                clearTimeout(this.delay_notify);
+                this.notify = false;
                 this.updateCheckboxes();
                 this.isDeleteButton();
 
             },
             toggleCheckbox() {
-                clearTimeout(this.delayAlert);
-                this.isAlert = false;
+                clearTimeout(this.delay_notify);
+                this.notify = false;
                 this.isDeleteButton();
             },
             sort: _.debounce(
                 function(title) {
-                    clearTimeout(this.delayAlert);
-                    this.isAlert = false;
-                    this.isDeleteDisabled = true;
-                    this.isParentCheckbox = false;
-                    this.checkboxIds = [];
+                    clearTimeout(this.delay_notify);
+                    this.notify = false;
+                    this.is_delete_disabled = true;
+                    this.is_parent_checkbox = false;
+                    this.checkbox_ids = [];
                     this.recordset.current_page = 1;
-                    this.sortColumn = this.flipSortDirection(title);
+                    this.sort_column = this.flipSortDirection(title);
                     this.getRequest(this.recordset.current_page);
                 }, 500
             ),
             filter: _.debounce(
                 function() {
-                    clearTimeout(this.delayAlert);
-                    this.isAlert = false;
-                    this.isDeleteDisabled = true;
-                    this.isParentCheckbox = false;
-                    this.checkboxIds = [];
+                    clearTimeout(this.delay_notify);
+                    this.notify = false;
+                    this.is_delete_disabled = true;
+                    this.is_parent_checkbox = false;
+                    this.checkbox_ids = [];
                     this.recordset.current_page = 1;
-                    this.sortColumn = this.columnSort();
+                    this.sort_column = this.columnSort();
                     this.filterItems();
                     this.getRequest(this.recordset.current_page);
                 }, 500
             ),
-            getRecordsetCreated(eventMessage) {
-                clearTimeout(this.delayAlert);
-                this.filterObj.filter = '';
-                this.sortColumn = '-id'
-                this.column.id = "desc";
-                this.getRequest(1);
-                this.resetCheckboxIds();
-                this.id = 0;
-                this.isAlert = true;
-                this.alertMessage = eventMessage;
-            },
-            getRecordsetUpdated(eventMessage) {
-                clearTimeout(this.delayAlert);
-                this.getRequest(this.recordset.current_page);
-                this.isAlert = true;
-                this.alertMessage = eventMessage;
-            },
             getRecordset(eventMessage) {
-                clearTimeout(this.delayAlert);
+                clearTimeout(this.delay_notify);
                 this.checkCurrentPage();
-                this.sortColumn = this.columnSort();
+                this.sort_column = this.columnSort();
                 this.getRequest(this.recordset.current_page);
                 this.resetCheckboxIds();
                 this.id = 0;
-                this.isAlert = true;
-                this.alertMessage = eventMessage;
+                this.notify = eventMessage;
             },
             getResults(page) {
-                clearTimeout(this.delayAlert);
+                clearTimeout(this.delay_notify);
                 page = this.checkPage(page);
-                this.sortColumn = this.columnSort();
+                this.sort_column = this.columnSort();
                 this.getRequest(page);
-                this.isAlert = false;
-                this.isDeleteDisabled = true;
-                this.isParentCheckbox = false;
-                this.checkboxIds = [];
+                this.notify = false;
+                this.is_delete_disabled = true;
+                this.is_parent_checkbox = false;
+                this.checkbox_ids = [];
             },
             columnSort() {
                 for (var title in this.column) {
@@ -275,38 +233,37 @@
                 }
             },
             getRequest(page) {
-                axios.get('/api/admin/v1/users?page=' + page + '&sort=' + this.sortColumn + '&filter=' + this.filterObj.filter)
+                axios.get('/api/admin/v1/users?page=' + page + '&sort=' + this.sort_column + '&filter=' + this.filter_obj.filter)
                     .then(response => {
                         this.recordset = response.data;
-                        this.delayAlert = setTimeout(() => {
-                            $('.alert').alert('close');
-                            setTimeout(() => this.isAlert = false, 300);
+                        this.delay_notify = setTimeout(() => {
+                            setTimeout(() => this.notify = false, 300);
                         }, 4000);
                     });
             },
             resetCheckboxIds() {
                 if (this.id === 0) {
-                    this.isDeleteDisabled = true;
-                    this.isParentCheckbox = false;
-                    this.checkboxIds = [];
+                    this.is_delete_disabled = true;
+                    this.is_parent_checkbox = false;
+                    this.checkbox_ids = [];
                 } else {
-                    var index = this.checkboxIds.indexOf(this.id);
-                    this.checkboxIds.splice(index, 1);
+                    var index = this.checkbox_ids.indexOf(this.id);
+                    this.checkbox_ids.splice(index, 1);
                 }
             },
             updateCheckboxes() {
-                if (this.isParentCheckbox) {
+                if (this.is_parent_checkbox) {
                     this.recordset.data.forEach((user) => {
                         if (user.id !== 1) {
-                            return this.checkboxIds.push(user.id);
+                            return this.checkbox_ids.push(user.id);
                         }
                     });
                 } else {
-                    this.checkboxIds = [];
+                    this.checkbox_ids = [];
                 }
             },
             isDeleteButton() {
-                return this.isDeleteDisabled = this.checkboxIds.length > 0 ? false : true;
+                return this.is_delete_disabled = this.checkbox_ids.length > 0 ? false : true;
             },
             checkPage(page) {
                 if (typeof page === 'undefined') {
@@ -321,41 +278,41 @@
                             this.recordset.current_page -= 1;
                             this.recordset.last_page -= 1;
                         }
-                    } else if (this.checkboxIds.length === this.recordset.total % this.recordset.per_page || this.checkboxIds.length === this.recordset.per_page) {
+                    } else if (this.checkbox_ids.length === this.recordset.total % this.recordset.per_page || this.checkbox_ids.length === this.recordset.per_page) {
                         this.recordset.current_page -= 1;
                         this.recordset.last_page -= 1;
                     }
-                } else if (this.checkboxIds.length === this.recordset.total % this.recordset.per_page || this.checkboxIds.length === this.recordset.per_page) {
+                } else if (this.checkbox_ids.length === this.recordset.total % this.recordset.per_page || this.checkbox_ids.length === this.recordset.per_page) {
                     this.recordset.last_page -= 1;
                 }
             },
-            flipSortDirection(sortColumn) {
-                if (this.column[sortColumn] === 'asc') {
+            flipSortDirection(sort_column) {
+                if (this.column[sort_column] === 'asc') {
                     for (var key in this.column) {
                         this.column[key] = '';
                     }
-                    this.column[sortColumn] = 'desc';
+                    this.column[sort_column] = 'desc';
                 } else {
                     for (var key in this.column) {
                         this.column[key] = '';
                     }
-                    this.column[sortColumn] = 'asc';
+                    this.column[sort_column] = 'asc';
                 }
-                return this.column[sortColumn] === 'asc' ? sortColumn : '-' + sortColumn;
+                return this.column[sort_column] === 'asc' ? sort_column : '-' + sort_column;
             },
             filterItems() {
-                for (var key in this.filterObj) {
-                    if (this.filterObj[key] && key !== 'items' && key !== 'filter') {
-                        this.filterObj.items[key] = this.filterObj[key];
+                for (var key in this.filter_obj) {
+                    if (this.filter_obj[key] && key !== 'items' && key !== 'filter') {
+                        this.filter_obj.items[key] = this.filter_obj[key];
                     } else {
-                        delete this.filterObj.items[key];
+                        delete this.filter_obj.items[key];
                     }
                 }
-                this.filterObj.filter = '';
-                for (var key in this.filterObj.items) {
-                    this.filterObj.filter += key + ':' + this.filterObj.items[key] + ',';
+                this.filter_obj.filter = '';
+                for (var key in this.filter_obj.items) {
+                    this.filter_obj.filter += key + ':' + this.filter_obj.items[key] + ',';
                 }
-                this.filterObj.filter = this.filterObj.filter.slice(0, -1);
+                this.filter_obj.filter = this.filter_obj.filter.slice(0, -1);
             }
         }
     }

@@ -4,10 +4,10 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">{{ content.title }}</h4>
+                    <h4 class="modal-title" id="myModalLabel">Delete Confirmation</h4>
                 </div>
                 <div class="modal-body">
-                    {{ content.body }}
+                    Are you sure you wish to delete the following {{ model }} permanently?
                     <div v-if="user.id">
                         #{{ user.id }}
                     </div>
@@ -16,13 +16,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <template v-if="content.type === 'delete'">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-danger" @click="deleteRecords">
-                            <i aria-hidden="true" class="fa fa-trash"></i> Delete
-                        </button>
-                    </template>
-
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" @click="deleteRecords">
+                        <i aria-hidden="true" class="fa fa-trash"></i> Delete
+                    </button>
                 </div>
             </div>
         </div>
@@ -35,7 +32,7 @@
             console.log('Component mounted.');
             $(this.$refs.vuemodaldelete).on('hidden.bs.modal', this.empty);
         },
-        props: ['content', 'ids', 'user'],
+        props: ['model', 'ids', 'user'],
         data() {
             return {
                 recordIds: '',

@@ -52,7 +52,7 @@ class AccountController extends Controller
                 ], 200);
         } else {
             return Response::json([
-                    'success' => 'You have updated your account!',
+                    'success' => 'Your account has been updated!',
                     'logout' => false
                 ], 200);
         }

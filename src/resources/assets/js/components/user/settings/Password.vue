@@ -7,11 +7,11 @@
                 {{ success }}
             </div>
         </div>
-        <div class="form-group" :class="{ 'has-error': errors.passwordCurrent }">
+        <div class="form-group" :class="{ 'has-error': errors.password_current }">
             <label for="password" class="control-label">Current Password</label>
-            <input type="password" class="form-control input-lg" v-model="passwordCurrent">
-            <span v-if="errors.passwordCurrent" class="help-block">
-                <strong>{{ errors.passwordCurrent[0] }}</strong>
+            <input type="password" class="form-control input-lg" v-model="password_current">
+            <span v-if="errors.password_current" class="help-block">
+                <strong>{{ errors.password_current[0] }}</strong>
             </span>
             <div>
                 <a href="/user/settings/password/forgot">
@@ -19,18 +19,18 @@
                 </a>
             </div>
         </div>
-        <div class="form-group" :class="{ 'has-error': errors.passwordNew }">
+        <div class="form-group" :class="{ 'has-error': errors.password_new }">
             <label for="new-password" class="control-label">New Password</label>
-            <input type="password" class="form-control input-lg" v-model="passwordNew">
-            <span v-if="errors.passwordNew" class="help-block">
-                <strong>{{ errors.passwordNew[0] }}</strong>
+            <input type="password" class="form-control input-lg" v-model="password_new">
+            <span v-if="errors.password_new" class="help-block">
+                <strong>{{ errors.password_new[0] }}</strong>
             </span>
         </div>
         <div class="form-group">
             <label for="confirm-password" class="control-label">Confirm Password</label>
-            <input type="password" class="form-control input-lg" v-model="passwordConfirmation">
+            <input type="password" class="form-control input-lg" v-model="password_confirmation">
         </div>
-        <button v-if="!isSubmit" type="button" class="btn btn-primary btn-lg" @click="update">Update</button>
+        <button v-if="!is_submit" type="button" class="btn btn-primary btn-lg" @click="update">Update</button>
         <button v-else type="button" class="btn btn-primary btn-lg disabled"><i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Checking...</button>
     </div>
 </template>
@@ -45,33 +45,33 @@
             return {
                 errors: {},
                 success: '',
-                isSubmit: false,
-                passwordCurrent: '',
-                passwordNew: '',
-                passwordConfirmation: ''
+                is_submit: false,
+                password_current: '',
+                password_new: '',
+                password_confirmation: ''
             }
         },
         methods: {
             update() {
-                this.isSubmit = true;
+                this.is_submit = true;
                 axios.post('/api/user/settings/v1/password/update', {
                     id: this.user.id,
                     email: this.user.email,
-                    passwordCurrent: this.passwordCurrent,
-                    passwordNew: this.passwordNew,
-                    passwordConfirmation: this.passwordConfirmation,
+                    password_current: this.password_current,
+                    password_new: this.password_new,
+                    password_confirmation: this.password_confirmation,
                 })
                 .then(response => {
                     if (response.data.success == 'updated') {
                         this.empty();
-                        this.success = 'You have successfully updated your password!';
-                        this.isSubmit = false;
+                        this.success = 'Your password has been successfully updated!';
+                        this.is_submit = false;
                         $(this).blur();
                     }
                     if (response.data.errors) {
                         this.success = '';
                         this.errors = response.data.errors;
-                        this.isSubmit = false;
+                        this.is_submit = false;
                     }
                 });
             },
@@ -82,10 +82,10 @@
             empty() {
                 this.errors = {};
                 this.success = '';
-                this.isSubmit = false;
-                this.passwordCurrent = '';
-                this.passwordNew = '';
-                this.passwordConfirmation = '';
+                this.is_submit = false;
+                this.password_current = '';
+                this.password_new = '';
+                this.password_confirmation = '';
             }
         }
     }
