@@ -31,7 +31,7 @@
             <input type="password" class="form-control input-lg" v-model="password_confirmation">
         </div>
         <button v-if="!is_submit" type="button" class="btn btn-primary btn-lg" @click="update">Update</button>
-        <button v-else type="button" class="btn btn-primary btn-lg disabled"><i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Checking...</button>
+        <button v-else type="button" class="btn btn-primary btn-lg disabled"><i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Updating</button>
     </div>
 </template>
 
@@ -54,7 +54,7 @@
         methods: {
             update() {
                 this.is_submit = true;
-                axios.post('/api/user/settings/v1/password/update', {
+                axios.post('/api/v1/user/settings/password/update', {
                     id: this.user.id,
                     email: this.user.email,
                     password_current: this.password_current,

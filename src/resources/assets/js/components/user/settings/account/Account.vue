@@ -22,7 +22,7 @@
                 </span>
             </div>
             <button v-if="!isSubmit" type="button" class="btn btn-primary btn-lg" @click="submit">Update</button>
-            <button v-else type="button" class="btn btn-primary btn-lg disabled"><i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Checking...</button>
+            <button v-else type="button" class="btn btn-primary btn-lg disabled"><i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Updating</button>
         </form>
 
     </div>
@@ -46,7 +46,7 @@
                 this.errors = '';
                 this.success = '';
                 this.isSubmit = true,
-                axios.put('/api/user/settings/v1/account/' + this.user.id, {
+                axios.put('/api/v1/user/settings/account/' + this.user.id, {
                     id: this.user.id,
                     name: this.user.name,
                     email: this.user.email,

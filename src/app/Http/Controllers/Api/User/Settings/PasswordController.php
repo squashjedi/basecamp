@@ -9,7 +9,6 @@ use Squashjedi\Basecamp\App\Http\Repositories\User\UserRepositoryInterface;
 
 use Squashjedi\Basecamp\App\Http\Requests\ResetPassword;
 use Squashjedi\Basecamp\App\Http\Requests\ResetPasswordForgot;
-use Squashjedi\Basecamp\App\Http\Requests\ResetPasswordModal;
 use Squashjedi\Basecamp\App\Mail\PasswordReset as MailReset;
 use Squashjedi\Basecamp\App\Mail\PasswordUpdated;
 use Squashjedi\Basecamp\App\PasswordReset;
@@ -59,57 +58,16 @@ class PasswordController extends Controller
     }
 
     /**
-     * Send the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function reset(Request $request)
-    {
-        if ($request->input('token') == PasswordReset::where('email', $request->input('email'))->first()->token) {
-            PasswordReset::where('token', $request->input('token'))->delete();
-            return Response::json([
-                    'success' => 'password',
-                ], 200);
-        }
-        return Response::json([
-                'errors' => 'errors',
-            ], 200);
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function updateModal(Request $request)
-    {
-        $form = new ResetPasswordModal;
-        $errors = $this->validation($form, $request);
-        if ($errors) return $errors;
-
-        $this->updatePasswordEmail($request);
-
-        return Response::json([
-                'success' => 'updated',
-            ], 200);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
     {
         $form = new ResetPassword;
         Validator::extend('password_match', function($attribute, $value, $parameters, $validator) use ($request) {
-                if ( ! Hash::check($request->input('password_current'), User::where('email', $request->input('email'))->first()->password) )
-                {
+                if ( ! Hash::check($request->input('password_current'), User::where('email', $request->input('email'))->first()->password) ) {
                     return false;
                 }
                 return true;
@@ -128,7 +86,6 @@ class PasswordController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function updateForgot(Request $request)

@@ -44,7 +44,7 @@
         methods: {
             deactivate() {
                 this.isDeactivating = true;
-                axios.post('/api/user/settings/v1/account/deactivate', {
+                axios.post('/api/v1/user/settings/account/deactivate', {
                     id: this.user.id,
                     password: this.password
                 })

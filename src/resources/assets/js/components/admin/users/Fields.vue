@@ -17,25 +17,20 @@
                     <strong>{{ errors.email[0] }}</strong>
                 </span>
             </div>
-            <div class="form-group" v-if="!is_edit">
-                <a class="btn btn-success btn-lg" @click="is_edit = !is_edit">Edit Password</a>
+            <div class="form-group" :class="{ 'has-error': errors.password }">
+                <label for="password" class="control-label">Password</label>
+                <input type="password" class="form-control input-lg" v-model="user.password">
+                <span v-if="errors.password" class="help-block">
+                    <strong>{{ errors.password[0] }}</strong>
+                </span>
             </div>
-            <template v-else>
-                <div class="form-group" :class="{ 'has-error': errors.password }">
-                    <label for="password" class="control-label">Password</label>
-                    <input type="password" class="form-control input-lg" v-model="user.password">
-                    <span v-if="errors.password" class="help-block">
-                        <strong>{{ errors.password[0] }}</strong>
-                    </span>
-                </div>
-                <div class="form-group" :class="{ 'has-error': errors.password_confirmation }">
-                    <label for="password_confirmation" class="control-label">Password Confirmation</label>
-                    <input type="password" class="form-control input-lg" v-model="user.password_confirmation">
-                    <span v-if="errors.password_confirmation" class="help-block">
-                        <strong>{{ errors.password_confirmation[0] }}</strong>
-                    </span>
-                </div>
-            </template>
+            <div class="form-group" :class="{ 'has-error': errors.password_confirmation }">
+                <label for="password_confirmation" class="control-label">Password Confirmation</label>
+                <input type="password" class="form-control input-lg" v-model="user.password_confirmation">
+                <span v-if="errors.password_confirmation" class="help-block">
+                    <strong>{{ errors.password_confirmation[0] }}</strong>
+                </span>
+            </div>
             <div class="form-group">
                 <label class="control-label">Verified</label><br />
                 <label class="radio-inline">
@@ -67,20 +62,18 @@
 	export default {
         mounted() {
             console.log('Component mounted.');
+            this.verified = this.user.verified;
             $('.input-group.date').datepicker({
                 format: 'yyyy-mm-dd',
                 todayHighlight: true
             }).on(
                 'changeDate', () => { this.user.deleted_at = $('.deleted-at').val() }
             );
-            this.verified = this.user.verified;
-            this.is_edit = this.is_password;
         },
-        props: ['user', 'errors', 'notify', 'is_password'],
+        props: ['user', 'errors', 'notify'],
         data() {
             return {
                 verified: 1,
-                is_edit: false,
                 is_publishing: false
             }
         },

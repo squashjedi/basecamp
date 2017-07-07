@@ -120,11 +120,13 @@ class DbUserRepository extends DbRepository implements UserRepositoryInterface {
     public function reactivateAccount($request)
     {
         $user = User::withTrashed()->where('email', $request->input('email'))->first();
-        if (Hash::check($request->input('password'), $user->password) && $user->deleted_at != null) {
-            Mail::to($user->email)->queue(new Reactivated($user));
-            User::withTrashed()
-                ->where('email', $request->input('email'))
-                ->update(['deleted_at' => null]);
+        if ($user) {
+            if (Hash::check($request->input('password'), $user->password) && $user->deleted_at != null) {
+                Mail::to($user->email)->queue(new Reactivated($user));
+                User::withTrashed()
+                    ->where('email', $request->input('email'))
+                    ->update(['deleted_at' => null]);
+            }
         }
         return;
     }

@@ -8,11 +8,11 @@
                 </div>
                 <div class="modal-body">
                     Are you sure you wish to delete the following {{ model }} permanently?
-                    <div v-if="user.id">
-                        #{{ user.id }}
+                    <div v-if="record.id">
+                        #{{ record.id }}
                     </div>
                     <div v-else>
-                        {{ userIds }}
+                        {{ recordsetIds }}
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -32,7 +32,7 @@
             console.log('Component mounted.');
             $(this.$refs.vuemodaldelete).on('hidden.bs.modal', this.empty);
         },
-        props: ['model', 'ids', 'user'],
+        props: ['model', 'ids', 'record'],
         data() {
             return {
                 recordIds: '',
@@ -41,19 +41,19 @@
             }
         },
         computed: {
-            userIds() {
+            recordsetIds() {
                 this.recordIds = this.ids;
                 return this.recordIds.sort((a, b) => a - b).map(item => '#' + item).join(', ');
             }
         },
         methods: {
             deleteRecords() {
-                if (this.user.id !== '') {
-                    this.deleteIds = this.user.id;
+                if (this.record.id !== '') {
+                    this.deleteIds = this.record.id;
                 } else {
                     this.deleteIds = this.ids;
                 }
-                axios.delete('/api/admin/v1/users/' + this.deleteIds)
+                axios.delete('/api/v1/admin/' + this.model.toLowerCase() +'/' + this.deleteIds)
                     .then(response => {
                         this.response = response.data;
                         this.$emit('ids-deleted', this.response.success);
@@ -62,7 +62,7 @@
                 $('#appModal').modal('hide');
             },
             empty() {
-                if (this.user.id !== '') {
+                if (this.record.id !== '') {
                     this.$emit('empty', true);
                 }
             }

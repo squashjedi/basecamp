@@ -1,6 +1,6 @@
 <template>
     <div>
-        <app-modal-delete :model="model" :ids="this.checkbox_ids" :user="user" @empty="empty" @ids-deleted="getRecordset"></app-modal-delete>
+        <squashjedi-basecamp-modal-delete :model="model" :ids="this.checkbox_ids" :record="user" @empty="empty" @ids-deleted="getRecordset"></squashjedi-basecamp-modal-delete>
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -233,7 +233,7 @@
                 }
             },
             getRequest(page) {
-                axios.get('/api/admin/v1/users?page=' + page + '&sort=' + this.sort_column + '&filter=' + this.filter_obj.filter)
+                axios.get('/api/v1/admin/users?page=' + page + '&sort=' + this.sort_column + '&filter=' + this.filter_obj.filter)
                     .then(response => {
                         this.recordset = response.data;
                         this.delay_notify = setTimeout(() => {

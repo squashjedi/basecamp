@@ -12,7 +12,7 @@
                     <div class="panel-title">Account</div>
                 </div>
                 <div class="panel-body">
-                    <app-user-settings-account :user="{{ Auth::user() }}"></app-user-settings-account>
+                    <squashjedi-basecamp-user-settings-account :user="{{ Auth::user() }}"></squashjedi-basecamp-user-settings-account>
                 </div>
                 <div class="panel-footer text-center">
                     <a href="{{ route('settings.account.deactivate') }}">Deactivate My Account</a>

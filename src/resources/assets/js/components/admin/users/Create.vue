@@ -16,7 +16,6 @@
                         :user="user"
                         :errors="errors"
                         :notify="notify"
-                        :is_password="is_password"
                         @publish="publish"></squashjedi-basecamp-admin-users-fields>
                 </div>
             </div>
@@ -47,7 +46,7 @@
         methods: {
             publish(verified) {
                 clearTimeout(this.delay_notify);
-                axios.post('/api/admin/v1/users', {
+                axios.post('/api/v1/admin/users', {
                     name: this.user.name,
                     email: this.user.email,
                     password: this.user.password,

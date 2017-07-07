@@ -8,7 +8,7 @@
         </div>
         <div v-else>
             <div class="form-group">
-                Would you like an email with a password reset link?
+                <p>Would you like an email with a password reset link?</p>
             </div>
             <button v-if="!is_sending" type="button" class="btn btn-primary btn-lg" @click="send">Send</button>
             <button v-else type="button" class="btn btn-primary btn-lg disabled"><i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Sending</button>
@@ -32,7 +32,7 @@
             send() {
                 this.is_sending = true;
                 this.success = false;
-                axios.post('/api/user/settings/v1/password/send', {
+                axios.post('/api/v1/user/settings/password/send', {
                     id: this.user.id,
                     email: this.user.email,
                 })
