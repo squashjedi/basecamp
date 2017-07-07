@@ -71,6 +71,7 @@ class UsersController extends Controller
         $user = $this->userRepo->update($request);
 
         return Response::json([
+                'user' => $this->userRepo->withTrashedGetById($id),
                 'success' => 'User updated.'
             ], 200);
     }

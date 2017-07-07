@@ -63,28 +63,48 @@ class DbUserRepository extends DbRepository implements UserRepositoryInterface {
 
     public function create($request)
     {
-        return User::create([
+        $user = User::create([
                 'verified' => $request->input('verified'),
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
                 'password' => bcrypt($request->input('password')),
-                'verify_token' => str_random(60),
-                'deleted_at' => $request->input('deleted_at'),
+                'verify_token' => str_random(60)
             ]);
+
+        if ($request->input('deactivate') == "1") {
+            User::find($user->id)->update([
+                'deleted_at' => NULL
+            ]);
+        } else if ($request->input('deactivate') == "2") {
+            User::find($user->id)->update([
+                'deleted_at' => date('Y-m-d h:i:s')
+            ]);
+        }
+
+        return;
     }
 
     public function update($request)
     {
         $id = $request->input('id');
-        $user = User::withTrashed()->find($id)->update([
+        $user = User::withTrashed();
+        $user->find($id)->update([
                         'verified' => $request->input('verified'),
                         'name' => $request->input('name'),
                         'email' => $request->input('email'),
-                        'verify_token' => str_random(60),
-                        'deleted_at' => $request->input('deleted_at')
+                        'verify_token' => str_random(60)
                     ]);
+        if ($request->input('deactivate') == "1") {
+            $user->find($id)->update([
+                'deleted_at' => NULL
+            ]);
+        } else if ($request->input('deactivate') == "2") {
+            $user->find($id)->update([
+                'deleted_at' => date('Y-m-d h:i:s')
+            ]);
+        }
         if ($request->input('password')) {
-            $user = User::find($id)->update([
+            $user->find($id)->update([
                 'password' => bcrypt($request->input('password'))
             ]);
         }

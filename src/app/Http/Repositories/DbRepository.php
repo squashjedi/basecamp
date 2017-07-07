@@ -12,7 +12,7 @@ abstract class DbRepository {
         $this->model = $model;
     }
 
-    public function adminGetById($id)
+    public function withTrashedGetById($id)
     {
         return $this->model->withTrashed()->find($id);
     }

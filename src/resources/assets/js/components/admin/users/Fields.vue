@@ -34,25 +34,31 @@
             <div class="form-group">
                 <label class="control-label">Verified</label><br />
                 <label class="radio-inline">
-                    <input type="radio" id="1" value="1" v-model="verified"> Yes
+                    <input type="radio" id="1" value="1" v-model="user.verified"> Yes
                 </label>
                 <label class="radio-inline">
-                    <input type="radio" id="0" value="0" v-model="verified"> No
+                    <input type="radio" id="0" value="0" v-model="user.verified"> No
                 </label>
             </div>
-            <div class="form-group" :class="{ 'has-error': errors.deleted_at }">
-                <label class="control-label">Deactivated</label>
-                <div class="input-group date">
-                    <input type="text" class="form-control input-lg deleted-at" v-model="user.deleted_at">
-                    <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-                </div>
-                <span v-if="errors.deleted_at" class="help-block">
-                    <strong>{{ errors.deleted_at[0] }}</strong>
-                </span>
+            <div class="form-group">
+                <label class="control-label">Deactivated At</label><br />
+                <input type="text" class="form-control input-lg" disabled v-model="user.deleted_at">
+
+            </div>
+            <div class="form-group">
+                <label class="radio-inline">
+                    <input type="radio" id="2" value="2" v-model="deactivate"> Deactivate
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" id="1" value="1" v-model="deactivate"> Remove
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" id="0" value="0" v-model="deactivate"> Unalter
+                </label>
             </div>
             <div class="text-right">
                 <button v-if="!is_publishing" type="button" class="btn btn-primary btn-lg" @click="publish">Publish</button>
-                <button v-else type="button" class="btn btn-primary disabled"><i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Publishing Account</button>
+                <button v-else type="button" class="btn btn-primary disabled"><i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Publishing</button>
             </div>
         </form>
 	</div>
@@ -62,24 +68,18 @@
 	export default {
         mounted() {
             console.log('Component mounted.');
-            this.verified = this.user.verified;
-            $('.input-group.date').datepicker({
-                format: 'yyyy-mm-dd',
-                todayHighlight: true
-            }).on(
-                'changeDate', () => { this.user.deleted_at = $('.deleted-at').val() }
-            );
         },
         props: ['user', 'errors', 'notify'],
         data() {
             return {
-                verified: 1,
-                is_publishing: false
+                is_publishing: false,
+                deactivate: 0
             }
         },
         methods: {
             publish() {
-                this.$emit('publish', this.verified);
+                this.$emit('publish', {verified: this.user.verified, deactivate: this.deactivate});
+                this.deactivate = 0;
             }
         }
     }

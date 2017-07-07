@@ -26,8 +26,7 @@ class UserForm extends FormRequest
         return [
             'name' => 'required',
             'email' => 'required|unique:users,email|email',
-            'password' => 'required_with:password_confirmation|min:6|same:password_confirmation',
-            'deleted_at' => 'nullable|date'
+            'password' => 'required_with:password_confirmation|min:6|same:password_confirmation'
         ];
     }
 
@@ -40,8 +39,7 @@ class UserForm extends FormRequest
             'email.email' => 'Must be a valid email',
             'password.min' => 'Must be at least 6 characters',
             'password.same' => 'Passwords do not match',
-            'password.required' => 'Required',
-            'deleted_at.date' => 'Must be a date'
+            'password.required' => 'Required'
         ];
     }
 }

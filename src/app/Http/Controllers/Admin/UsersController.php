@@ -49,7 +49,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $user = $this->user->adminGetById($id);
+        $user = $this->user->withTrashedGetById($id);
         return view('squashjedi/basecamp::admin.users.edit', ['user' => $user]);
     }
 

@@ -5,7 +5,7 @@
                 <div class="panel-heading">
                 	<ol class="breadcrumb">
 						<li><a href="/admin/users">Users</a></li>
-						<li class="active">Edit #{{ user.id }}</li>
+						<li class="active">Edit #{{ userData.id }}</li>
 					</ol>
                     <div class="panel-title">
                         Edit User
@@ -13,7 +13,7 @@
                 </div>
                 <div class="panel-body">
                     <squashjedi-basecamp-admin-users-fields
-                        :user="user"
+                        :user="userData"
                         :errors="errors"
                         :notify="notify"
                         @publish="publish"></squashjedi-basecamp-admin-users-fields>
@@ -27,35 +27,37 @@
 	export default {
         mounted() {
             console.log('Component mounted.');
+            this.userData = this.user;
         },
         props: ['user'],
         data() {
         	return {
                 errors: '',
-                is_password: false,
-                notify: ''
+                notify: '',
+                userData: ''
         	}
         },
         methods: {
-            publish(verified) {
+            publish(event) {
                 clearTimeout(this.delay_notify);
-                axios.put('/api/v1/admin/users/' + this.user.id, {
-                    id: this.user.id,
-                    name: this.user.name,
-                    email: this.user.email,
-                    password: this.user.password,
-                    password_confirmation: this.user.password_confirmation,
-                    verified: verified,
-                    deleted_at: this.user.deleted_at
+                axios.put('/api/v1/admin/users/' + this.userData.id, {
+                    id: this.userData.id,
+                    name: this.userData.name,
+                    email: this.userData.email,
+                    password: this.userData.password,
+                    password_confirmation: this.userData.password_confirmation,
+                    verified: event.verified,
+                    deactivate: event.deactivate
                 })
                 .then(response => {
                     if (response.data.success) {
                     	this.notify = response.data.success;
+                        this.userData = response.data.user;
                         this.delay_notify = setTimeout(() => this.notify = false, 4000);
                         this.errors = '';
-                        this.user.password = '';
-                        this.user.password_confirmation = '';
-                        this.is_password = false;
+                        this.userData.password = '';
+                        this.userData.password_confirmation = '';
+                        this.deactivate = 0;
                     }
                     if (response.data.errors) {
                         this.errors = response.data.errors;

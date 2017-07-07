@@ -35,24 +35,24 @@
                     email: '',
                     password: '',
                     password_confirmation: '',
-                    verified: 1,
-                    deleted_at: '' 
+                    verified: 1, 
                 },
                 errors: '',
                 is_password: true,
                 notify: '',
+                deactivate: ''
         	}
         },
         methods: {
-            publish(verified) {
+            publish(event) {
                 clearTimeout(this.delay_notify);
                 axios.post('/api/v1/admin/users', {
                     name: this.user.name,
                     email: this.user.email,
                     password: this.user.password,
                     password_confirmation: this.user.password_confirmation,
-                    verified: verified,
-                    deleted_at: this.user.deleted_at
+                    verified: event.verified,
+                    deactivate: event.deactivate
                 })
                 .then(response => {
                     if (response.data.success) {
@@ -70,7 +70,7 @@
                 this.user.email = '';
                 this.user.password = '';
                 this.user.password_confirmation = '';
-                this.verified = 1;
+                this.user.verified = 1;
                 this.user.deleted_at = '';
                 this.errors = '';
             }
