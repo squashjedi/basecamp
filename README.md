@@ -128,11 +128,19 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Squashjedi\Basecamp\App\Notifications\ResetPasswordNotification;
 use Squashjedi\Basecamp\App\Social;
 use Squashjedi\Basecamp\App\Role;
-use Squashjedi\Basecamp\App\PasswordCode;
+use Squashjedi\Basecamp\App\PasswordReset;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, SoftDeletes;
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
 
     /**
      * Send the password reset notification.
@@ -151,7 +159,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'verified', 'name', 'email', 'password', 'verify_token'
+        'verified', 'name', 'email', 'password', 'verify_token', 'deleted_at'
     ];
 
     /**
@@ -182,9 +190,9 @@ class User extends Authenticatable
     /**
      * Get the password code for the user.
      */
-    public function passwordCode()
+    public function passwordReset()
     {
-        return $this->hasOne(PasswordCode::class, 'email', 'email');
+        return $this->hasOne(PasswordReset::class, 'email', 'email');
     }
 }
 ```
