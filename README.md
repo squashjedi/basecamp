@@ -56,24 +56,44 @@ npm install font-awesome
 
 Add these Vue components in `resources/assets/js/app.js`:
 ``` bash
-Vue.component('app-pagination',
-	require('./components/vendor/squashjedi/basecamp/Pagination.vue'));
-Vue.component('app-admin-users',
-	require('./components/vendor/squashjedi/basecamp/admin/Users.vue'));
-Vue.component('app-modal-delete',
-	require('./components/vendor/squashjedi/basecamp/ModalDelete.vue'));
-Vue.component('app-modal-create',
-	require('./components/vendor/squashjedi/basecamp/ModalCreate.vue'));
-Vue.component('app-modal-update',
-	require('./components/vendor/squashjedi/basecamp/ModalUpdate.vue'));
-Vue.component('app-alert',
-	require('./components/vendor/squashjedi/basecamp/Alert.vue'));
-Vue.component('app-user-settings-account',
-	require('./components/vendor/squashjedi/basecamp/user/settings/Account.vue'));
-Vue.component('app-user-settings-password',
-	require('./components/vendor/squashjedi/basecamp/user/settings/Password.vue'));
-Vue.component('app-user-settings-password-modal',
-	require('./components/vendor/squashjedi/basecamp/user/settings/PasswordModal.vue'));
+Vue.component('squashjedi-basecamp-pagination',
+    require('./components/vendor/squashjedi/basecamp/Pagination.vue'));
+
+Vue.component('squashjedi-basecamp-notify',
+    require('./components/vendor/squashjedi/basecamp/Notify.vue'));
+
+Vue.component('squashjedi-basecamp-modal-delete',
+    require('./components/vendor/squashjedi/basecamp/ModalDelete.vue'));
+
+Vue.component('squashjedi-basecamp-admin-users',
+    require('./components/vendor/squashjedi/basecamp/admin/users/Index.vue'));
+
+Vue.component('squashjedi-basecamp-admin-users-fields',
+    require('./components/vendor/squashjedi/basecamp/admin/users/Fields.vue'));
+
+Vue.component('squashjedi-basecamp-admin-users-create',
+    require('./components/vendor/squashjedi/basecamp/admin/users/Create.vue'));
+
+Vue.component('squashjedi-basecamp-admin-users-edit',
+    require('./components/vendor/squashjedi/basecamp/admin/users/Edit.vue'));
+
+Vue.component('squashjedi-basecamp-user-settings-account',
+    require('./components/vendor/squashjedi/basecamp/user/settings/account/Account.vue'));
+
+Vue.component('squashjedi-basecamp-user-settings-account-deactivate',
+    require('./components/vendor/squashjedi/basecamp/user/settings/account/Deactivate.vue'));
+
+Vue.component('squashjedi-basecamp-user-settings-account-deactivate-modal',
+    require('./components/vendor/squashjedi/basecamp/user/settings/account/DeactivateModal.vue'));
+
+Vue.component('squashjedi-basecamp-user-settings-password',
+    require('./components/vendor/squashjedi/basecamp/user/settings/password/Password.vue'));
+
+Vue.component('squashjedi-basecamp-settings-password-forgot',
+    require('./components/vendor/squashjedi/basecamp/user/settings/password/Forgot.vue'));
+
+Vue.component('squashjedi-basecamp-user-settings-password-reset',
+    require('./components/vendor/squashjedi/basecamp/user/settings/password/Reset.vue'));
 ```
 
 Add these at the bottom of `resources/assets/sass/app.scss`:

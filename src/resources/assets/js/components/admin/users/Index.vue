@@ -34,8 +34,8 @@
                                 <th>
                                     <select class="form-control" v-model="filter_obj.deleted_at" @change="filter">
                                         <option value="%">All</option>
-                                        <option value="0">No</option>
-                                        <option value="1">Yes</option>
+                                        <option value="1">Deactivated</option>
+                                        <option value="0">Not Deactivated</option>
                                     </select>
                                 </th>
                             </tr>
@@ -75,7 +75,7 @@
                                             'fa fa-sort-asc': column.deleted_at === 'asc',
                                             'fa fa-sort-desc': column.deleted_at === 'desc',
                                             'fa fa-sort': column.deleted_at === ''}"
-                                        aria-hidden="true"></i> Deactivated</th>
+                                        aria-hidden="true"></i> Deactivated At</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -97,7 +97,7 @@
                                 <td>{{ user.name }}</td>
                                 <td>{{ user.email }}</td>
                                 <td>{{ user.verified ? 'Yes' : 'No' }}</td>
-                                <td>{{ user.deleted_at ? user.deleted_at : 'No' }}</td>
+                                <td>{{ user.deleted_at ? user.deleted_at : '' }}</td>
                             </tr>
                         </tbody>
                     </table>
