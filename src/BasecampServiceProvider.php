@@ -15,7 +15,7 @@ class BasecampServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot()
-    {
+    { 
         $this->app->register(SocialiteServiceProvider::class);
         AliasLoader::getInstance(['Socialite'=> '\Laravel\Socialite\Facades\Socialite']);
 
