@@ -18,7 +18,7 @@ class UsersController extends Controller
     public function __construct(UserRepositoryInterface $user)
     {
         $this->user = $user;
-        $this->middleware('auth.webmaster');
+        $this->middleware('webmaster');
     }
 
     /**

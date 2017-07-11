@@ -197,53 +197,6 @@ class User extends Authenticatable
 }
 ```
 
-Create a new file `app/Http/Middleware/AuthWebmaster.php` with the following content:
-``` bash
-<?php
-
-namespace App\Http\Middleware;
-
-use Closure;
-use Illuminate\Support\Facades\Auth;
-
-class AuthWebmaster
-{
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
-     */
-    public function handle($request, Closure $next)
-    {
-        if (!Auth::Check()) {
-            $isWebmaster = false;
-        } elseif (!Auth::user()->roles()->first()) {
-            $isWebmaster = false;
-        } elseif (Auth::user()->roles()->first()->role != 'webmaster') {
-            $isWebmaster = false;
-        } else {
-            $isWebmaster = true;
-        }
-        if (!$isWebmaster) {
-            return redirect(route('settings'));
-        }
-
-        return $next($request);
-    }
-}
-```
-
-Add this towards the bottom of `app/Http/Kernel.php`:
-``` bash
-protected $routeMiddleware = [
-    // Other middlewares...
-
-    'auth.webmaster' => \App\Http\Middleware\AuthWebmaster::class,
-];
-```
-
 Then finally add the following to `resources/lang/en/validation.php`:
 ``` bash
 return [
