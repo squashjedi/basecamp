@@ -67,42 +67,57 @@ Route::namespace('Squashjedi\Basecamp\App\Http\Controllers')->group(function() {
 				->name('password.reset');	
 
 		Route::post('/password/reset',
-			'Auth\ResetPasswordController@reset');		
+			'Auth\ResetPasswordController@reset');
 
-		// User\Settings\AccountController
-		Route::get('/user/settings',
-			'User\Settings\AccountController@edit')
-				->name('settings');
+		Route::group(['middleware' => ['auth']], function () {	
 
-		Route::get('/user/settings/account',
-			'User\Settings\AccountController@edit')
-				->name('settings.account');
+			// User\Settings\AccountController
+			Route::get('/user',
+				'User\Settings\AccountController@edit')
+					->name('user');
 
-		// User\Settings\Account\DeactivateController
-		Route::get('/user/settings/account/deactivate',
-			'User\Settings\Account\DeactivateController@edit')
-				->name('settings.account.deactivate');
+			// User\Settings\AccountController
+			Route::get('/user/settings',
+				'User\Settings\AccountController@edit')
+					->name('settings');
 
-		// User\Settings\PasswordController
-		Route::get('/user/settings/password',
-			'User\Settings\PasswordController@edit')
-				->name('settings.password');
+			Route::get('/user/settings/account',
+				'User\Settings\AccountController@edit')
+					->name('settings.account');
 
-		// User\Settings\Password\ForgotController
-		Route::get('/user/settings/password/forgot',
-			'User\Settings\Password\ForgotController@edit')
-				->name('settings.password.forgot');
+			// User\Settings\Account\DeactivateController
+			Route::get('/user/settings/account/deactivate',
+				'User\Settings\Account\DeactivateController@edit')
+					->name('settings.account.deactivate');
 
-		// User\Settings\Password\Forgot\ResetController
-		Route::get('/user/settings/password/forgot/{email}/{code}',
-			'User\Settings\Password\Forgot\ResetController@edit')
-				->name('settings.password.reset');
+			// User\Settings\PasswordController
+			Route::get('/user/settings/password',
+				'User\Settings\PasswordController@edit')
+					->name('settings.password');
 
-		// Admin\UsersController
-		Route::resource('/admin/users', 
-			'Admin\UsersController', [
-				'names' => [ 'index' => 'admin.users' ]
-			]);
+			// User\Settings\Password\ForgotController
+			Route::get('/user/settings/password/forgot',
+				'User\Settings\Password\ForgotController@edit')
+					->name('settings.password.forgot');
+
+			// User\Settings\Password\Forgot\ResetController
+			Route::get('/user/settings/password/forgot/{email}/{code}',
+				'User\Settings\Password\Forgot\ResetController@edit')
+					->name('settings.password.reset');
+
+			Route::group(['middleware' => ['webmaster']], function () {
+
+				// Admin\UsersController
+				Route::resource('/admin/users', 
+					'Admin\UsersController', [
+						'names' => [ 'index' => 'admin.users' ]
+					]);
+
+			});
+
+		});
+
+
 
 	});
 
