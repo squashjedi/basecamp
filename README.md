@@ -217,7 +217,7 @@ protected $middlewareGroups = [
         \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
     ],
 ];
-```
+``` 
 
 ## Usage
 
