@@ -113,9 +113,9 @@ Run the following command:
 npm run dev
 ```
 
-Delete `resources/views/welcome.blade.php`
+Delete `resources/views/welcome.blade.php`.
 
-Delete all routes in `routes/web.php`
+Delete all routes in `routes/web.php`.
 
 Replace `app/User.php` with:
 ``` bash
@@ -203,6 +203,19 @@ return [
     // Other error messages...
 
     'password_match'        => 'This doesn\'t match your current password',
+];
+```
+
+Install `Laravel Passport` https://packagist.org/packages/laravel/passport.
+
+Add this middleware to `app/Http/Kernel`:
+``` bash
+protected $middlewareGroups = [
+    'web' => [
+        // Other middleware classes...
+
+        \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
+    ],
 ];
 ```
 
