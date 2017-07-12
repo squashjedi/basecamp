@@ -1,6 +1,6 @@
 <template>
     <div>
-        <squashjedi-basecamp-modal-delete :model="model" :ids="this.checkbox_ids" :record="user" @empty="empty" @ids-deleted="getRecordset"></squashjedi-basecamp-modal-delete>
+        <basecamp-modal-delete :model="model" :ids="this.checkbox_ids" :record="user" @empty="empty" @ids-deleted="getRecordset"></basecamp-modal-delete>
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -9,8 +9,8 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                    <squashjedi-basecamp-notify v-if="notify" :message="notify"></squashjedi-basecamp-notify>
-                    <squashjedi-basecamp-pagination :recordset="recordset" @recordset-changed="getResults"></squashjedi-basecamp-pagination>
+                    <basecamp-notify v-if="notify" :message="notify"></basecamp-notify>
+                    <basecamp-pagination :recordset="recordset" @recordset-changed="getResults"></basecamp-pagination>
                 </div>
                 <div class="table-responsive">
                     <table class="table">
@@ -103,7 +103,7 @@
                     </table>
                 </div>
                 <div class="panel-body">
-                    <squashjedi-basecamp-pagination :recordset="recordset" @recordset-changed="getResults"></squashjedi-basecamp-pagination>
+                    <basecamp-pagination :recordset="recordset" @recordset-changed="getResults"></basecamp-pagination>
                 </div>
             </div>
         </div>

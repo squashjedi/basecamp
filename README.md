@@ -56,43 +56,43 @@ npm install font-awesome
 
 Add these Vue components in `resources/assets/js/app.js`:
 ``` bash
-Vue.component('squashjedi-basecamp-pagination',
+Vue.component('basecamp-pagination',
     require('./components/basecamp/Pagination.vue'));
 
-Vue.component('squashjedi-basecamp-notify',
+Vue.component('basecamp-notify',
     require('./components/basecamp/Notify.vue'));
 
-Vue.component('squashjedi-basecamp-modal-delete',
+Vue.component('basecamp-modal-delete',
     require('./components/basecamp/ModalDelete.vue'));
 
-Vue.component('squashjedi-basecamp-admin-users',
+Vue.component('basecamp-admin-users',
     require('./components/basecamp/admin/users/Index.vue'));
 
-Vue.component('squashjedi-basecamp-admin-users-fields',
+Vue.component('basecamp-admin-users-fields',
     require('./components/basecamp/admin/users/Fields.vue'));
 
-Vue.component('squashjedi-basecamp-admin-users-create',
+Vue.component('basecamp-admin-users-create',
     require('./components/basecamp/admin/users/Create.vue'));
 
-Vue.component('squashjedi-basecamp-admin-users-edit',
+Vue.component('basecamp-admin-users-edit',
     require('./components/basecamp/admin/users/Edit.vue'));
 
-Vue.component('squashjedi-basecamp-user-settings-account',
+Vue.component('basecamp-user-settings-account',
     require('./components/basecamp/user/settings/account/Account.vue'));
 
-Vue.component('squashjedi-basecamp-user-settings-account-deactivate',
+Vue.component('basecamp-user-settings-account-deactivate',
     require('./components/basecamp/user/settings/account/Deactivate.vue'));
 
-Vue.component('squashjedi-basecamp-user-settings-account-deactivate-modal',
+Vue.component('basecamp-user-settings-account-deactivate-modal',
     require('./components/basecamp/user/settings/account/DeactivateModal.vue'));
 
-Vue.component('squashjedi-basecamp-user-settings-password',
+Vue.component('basecamp-user-settings-password',
     require('./components/basecamp/user/settings/password/Password.vue'));
 
-Vue.component('squashjedi-basecamp-settings-password-forgot',
+Vue.component('basecamp-settings-password-forgot',
     require('./components/basecamp/user/settings/password/Forgot.vue'));
 
-Vue.component('squashjedi-basecamp-user-settings-password-reset',
+Vue.component('basecamp-user-settings-password-reset',
     require('./components/basecamp/user/settings/password/Reset.vue'));
 ```
 

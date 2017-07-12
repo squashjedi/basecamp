@@ -1,6 +1,6 @@
 <template>
 	<div>
-        <squashjedi-basecamp-notify v-if="notify" :message="notify"></squashjedi-basecamp-notify>
+        <basecamp-notify v-if="notify" :message="notify"></basecamp-notify>
         <form @keyup.enter="publish">
             <input type="hidden" v-model="user.id">
             <div class="form-group" :class="{ 'has-error': errors.name }">

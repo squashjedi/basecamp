@@ -17,7 +17,7 @@
                             Authorisation to update your password has failed!
                         </div>
                     @else
-                        <squashjedi-basecamp-user-settings-password-reset :user="{{ Auth::user() }}"></squashjedi-basecamp-user-settings-password-reset>
+                        <basecamp-user-settings-password-reset :user="{{ Auth::user() }}"></basecamp-user-settings-password-reset>
                     @endif
                     </form>
                 </div>

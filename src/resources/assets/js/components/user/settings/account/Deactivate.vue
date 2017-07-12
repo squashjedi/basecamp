@@ -1,6 +1,6 @@
 <template>
     <div>
-        <squashjedi-basecamp-user-settings-account-deactivate-modal :linkforgot="linkforgot" :user="user"></squashjedi-basecamp-user-settings-account-deactivate-modal>
+        <basecamp-user-settings-account-deactivate-modal :linkforgot="linkforgot" :user="user"></basecamp-user-settings-account-deactivate-modal>
         <div class="text-center">
             <button class="btn btn-primary" data-toggle="modal" data-target="#appModalUserSettingsDeactivate">Deactivate My Account</button>
             <a :href="linkaccount" class="btn btn-default left-padding">Cancel</a>

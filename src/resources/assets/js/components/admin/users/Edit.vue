@@ -12,11 +12,11 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                    <squashjedi-basecamp-admin-users-fields
+                    <basecamp-admin-users-fields
                         :user="userData"
                         :errors="errors"
                         :notify="notify"
-                        @publish="publish"></squashjedi-basecamp-admin-users-fields>
+                        @publish="publish"></basecamp-admin-users-fields>
                 </div>
             </div>
         </div>

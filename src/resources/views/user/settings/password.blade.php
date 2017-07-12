@@ -12,7 +12,7 @@
                     <div class="panel-title">Password</div>
                 </div>
                 <div class="panel-body">
-                    <squashjedi-basecamp-user-settings-password :user="{{ Auth::user() }}"></squashjedi-basecamp-user-settings-password>
+                    <basecamp-user-settings-password :user="{{ Auth::user() }}"></basecamp-user-settings-password>
                 </div>
             </div>
         </div>

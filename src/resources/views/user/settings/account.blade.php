@@ -12,7 +12,7 @@
                     <div class="panel-title">Account</div>
                 </div>
                 <div class="panel-body">
-                    <squashjedi-basecamp-user-settings-account :user="{{ Auth::user() }}"></squashjedi-basecamp-user-settings-account>
+                    <basecamp-user-settings-account :user="{{ Auth::user() }}"></basecamp-user-settings-account>
                 </div>
                 @if (Auth::user()->id > 1)
                     <div class="panel-footer text-center">

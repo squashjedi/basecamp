@@ -21,10 +21,10 @@
                     </ul>
                 </div>
                 <div class="panel-footer">
-                    <squashjedi-basecamp-user-settings-account-deactivate
+                    <basecamp-user-settings-account-deactivate
                         :linkaccount="{{ json_encode(route('settings.account')) }}"
                         :linkforgot="{{ json_encode(route('settings.password.forgot')) }}"
-                        :user="{{ json_encode(Auth::user()) }}"></squashjedi-basecamp-user-settings-account-deactivate>
+                        :user="{{ json_encode(Auth::user()) }}"></basecamp-user-settings-account-deactivate>
                 </div>
             </div>
         </div>

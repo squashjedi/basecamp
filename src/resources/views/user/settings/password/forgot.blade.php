@@ -15,7 +15,7 @@
 
                     @include('squashjedi/basecamp::alert')
                     
-                    <squashjedi-basecamp-settings-password-forgot :user="{{ Auth::user() }}"></squashjedi-basecamp-settings-password-forgot>
+                    <basecamp-settings-password-forgot :user="{{ Auth::user() }}"></basecamp-settings-password-forgot>
                 </div>
             </div>
         </div>

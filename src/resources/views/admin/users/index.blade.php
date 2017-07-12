@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <squashjedi-basecamp-admin-users :routeCreate="{{ json_encode(route('users.create')) }}"></squashjedi-basecamp-admin-users>
+        <basecamp-admin-users :routeCreate="{{ json_encode(route('users.create')) }}"></basecamp-admin-users>
     </div>
 </div>
 @endsection
