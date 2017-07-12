@@ -106,26 +106,34 @@ Route::namespace('Squashjedi\Basecamp\App\Http\Controllers')->group(function() {
 
 	});
 
-	// Api\Admin\UsersController
-	Route::resource('/api/v1/admin/users',
-		'Api\Admin\UsersController');
+	Route::group(['middleware' => ['auth:api']], function () {
 
-	// Api\User\Settings\AccountController
-	Route::resource('/api/v1/user/settings/account',
-		'Api\User\Settings\AccountController');
+		Route::prefix('api')->group(function () {
 
-	// Api\User\Settings\Account\DeactivateController
-	Route::post('/api/v1/user/settings/account/deactivate',
-		'Api\User\Settings\Account\DeactivateController@update');
+			// Api\Admin\UsersController
+			Route::resource('/v1/admin/users',
+				'Api\Admin\UsersController');
 
-	// Api\User\Settings\PasswordController
-	Route::post('/api/v1/user/settings/password/send',
-		'Api\User\Settings\PasswordController@send');
+			// Api\User\Settings\AccountController
+			Route::resource('/v1/user/settings/account',
+				'Api\User\Settings\AccountController');
 
-	Route::post('/api/v1/user/settings/password/update',
-		'Api\User\Settings\PasswordController@update');
+			// Api\User\Settings\Account\DeactivateController
+			Route::post('/v1/user/settings/account/deactivate',
+				'Api\User\Settings\Account\DeactivateController@update');
 
-	Route::post('/api/v1/user/settings/password/update-forgot',
-		'Api\User\Settings\PasswordController@updateForgot');
+			// Api\User\Settings\PasswordController
+			Route::post('/v1/user/settings/password/send',
+				'Api\User\Settings\PasswordController@send');
+
+			Route::post('/v1/user/settings/password/update',
+				'Api\User\Settings\PasswordController@update');
+
+			Route::post('/v1/user/settings/password/update-forgot',
+				'Api\User\Settings\PasswordController@updateForgot');
+
+		});
+
+	});
 
 });

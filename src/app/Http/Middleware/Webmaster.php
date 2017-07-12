@@ -3,7 +3,6 @@
 namespace Squashjedi\Basecamp\App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
 
 class Webmaster
 {
@@ -16,16 +15,7 @@ class Webmaster
      */
     public function handle($request, Closure $next)
     {
-        if (!Auth::Check()) {
-            $isWebmaster = false;
-        } elseif (!Auth::user()->roles()->first()) {
-            $isWebmaster = false;
-        } elseif (Auth::user()->roles()->first()->role != 'webmaster') {
-            $isWebmaster = false;
-        } else {
-            $isWebmaster = true;
-        }
-        if (!$isWebmaster) {
+        if (@$request->user()->roles()->first()->role != 'webmaster') {
             return redirect(route('settings'));
         }
 

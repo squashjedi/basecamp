@@ -57,43 +57,43 @@ npm install font-awesome
 Add these Vue components in `resources/assets/js/app.js`:
 ``` bash
 Vue.component('squashjedi-basecamp-pagination',
-    require('./components/vendor/squashjedi/basecamp/Pagination.vue'));
+    require('./components/basecamp/Pagination.vue'));
 
 Vue.component('squashjedi-basecamp-notify',
-    require('./components/vendor/squashjedi/basecamp/Notify.vue'));
+    require('./components/basecamp/Notify.vue'));
 
 Vue.component('squashjedi-basecamp-modal-delete',
-    require('./components/vendor/squashjedi/basecamp/ModalDelete.vue'));
+    require('./components/basecamp/ModalDelete.vue'));
 
 Vue.component('squashjedi-basecamp-admin-users',
-    require('./components/vendor/squashjedi/basecamp/admin/users/Index.vue'));
+    require('./components/basecamp/admin/users/Index.vue'));
 
 Vue.component('squashjedi-basecamp-admin-users-fields',
-    require('./components/vendor/squashjedi/basecamp/admin/users/Fields.vue'));
+    require('./components/basecamp/admin/users/Fields.vue'));
 
 Vue.component('squashjedi-basecamp-admin-users-create',
-    require('./components/vendor/squashjedi/basecamp/admin/users/Create.vue'));
+    require('./components/basecamp/admin/users/Create.vue'));
 
 Vue.component('squashjedi-basecamp-admin-users-edit',
-    require('./components/vendor/squashjedi/basecamp/admin/users/Edit.vue'));
+    require('./components/basecamp/admin/users/Edit.vue'));
 
 Vue.component('squashjedi-basecamp-user-settings-account',
-    require('./components/vendor/squashjedi/basecamp/user/settings/account/Account.vue'));
+    require('./components/basecamp/user/settings/account/Account.vue'));
 
 Vue.component('squashjedi-basecamp-user-settings-account-deactivate',
-    require('./components/vendor/squashjedi/basecamp/user/settings/account/Deactivate.vue'));
+    require('./components/basecamp/user/settings/account/Deactivate.vue'));
 
 Vue.component('squashjedi-basecamp-user-settings-account-deactivate-modal',
-    require('./components/vendor/squashjedi/basecamp/user/settings/account/DeactivateModal.vue'));
+    require('./components/basecamp/user/settings/account/DeactivateModal.vue'));
 
 Vue.component('squashjedi-basecamp-user-settings-password',
-    require('./components/vendor/squashjedi/basecamp/user/settings/password/Password.vue'));
+    require('./components/basecamp/user/settings/password/Password.vue'));
 
 Vue.component('squashjedi-basecamp-settings-password-forgot',
-    require('./components/vendor/squashjedi/basecamp/user/settings/password/Forgot.vue'));
+    require('./components/basecamp/user/settings/password/Forgot.vue'));
 
 Vue.component('squashjedi-basecamp-user-settings-password-reset',
-    require('./components/vendor/squashjedi/basecamp/user/settings/password/Reset.vue'));
+    require('./components/basecamp/user/settings/password/Reset.vue'));
 ```
 
 Add these at the bottom of `resources/assets/sass/app.scss`:
@@ -102,10 +102,10 @@ Add these at the bottom of `resources/assets/sass/app.scss`:
 @import "node_modules/font-awesome/scss/font-awesome.scss";
 
 // Basecamp variables
-@import "vendor/squashjedi/basecamp/variables";
+@import "basecamp/variables";
 
 // Basecamp extras
-@import "vendor/squashjedi/basecamp/extras";
+@import "basecamp/extras";
 ```
 
 Run the following command:

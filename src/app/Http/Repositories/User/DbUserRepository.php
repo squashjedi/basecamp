@@ -64,12 +64,12 @@ class DbUserRepository extends DbRepository implements UserRepositoryInterface {
     public function create($request)
     {
         $user = User::create([
-                'verified' => $request->input('verified'),
-                'name' => $request->input('name'),
-                'email' => $request->input('email'),
-                'password' => bcrypt($request->input('password')),
-                'verify_token' => str_random(60)
-            ]);
+            'verified' => $request->input('verified'),
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password')),
+            'verify_token' => str_random(60)
+        ]);
 
         if ($request->input('deactivate') == "1") {
             User::find($user->id)->update([
@@ -89,18 +89,18 @@ class DbUserRepository extends DbRepository implements UserRepositoryInterface {
         $id = $request->input('id');
         $user = User::withTrashed();
         $user->find($id)->update([
-                        'verified' => $request->input('verified'),
-                        'name' => $request->input('name'),
-                        'email' => $request->input('email'),
-                        'verify_token' => str_random(60)
-                    ]);
+            'verified' => $request->input('verified'),
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'verify_token' => str_random(60)
+        ]);
         if ($request->input('deactivate') == "1") {
             $user->find($id)->update([
                 'deleted_at' => NULL
             ]);
         } else if ($request->input('deactivate') == "2") {
             $user->find($id)->update([
-                'deleted_at' => date('Y-m-d h:i:s')
+                'deleted_at' => gmdate("Y-m-d H:i:s")
             ]);
         }
         if ($request->input('password')) {
@@ -123,11 +123,11 @@ class DbUserRepository extends DbRepository implements UserRepositoryInterface {
             $verified = $user['verified'];
         }
         $user = User::find($id)->update([
-                'verified' => $verified,
-                'name' => $request->input('name'),
-                'email' => $request->input('email'),
-                'verify_token' => str_random(60),
-            ]);
+            'verified' => $verified,
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'verify_token' => str_random(60),
+        ]);
         return User::find($id);
     }
 

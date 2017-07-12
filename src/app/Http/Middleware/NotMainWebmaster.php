@@ -3,9 +3,8 @@
 namespace Squashjedi\Basecamp\App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
 
-class NotWebmaster
+class NotMainWebmaster
 {
     /**
      * Handle an incoming request.
@@ -16,7 +15,7 @@ class NotWebmaster
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::user()->id == 1) {
+        if ($request->user()->id == 1) {
             return redirect(route('settings'));
         }
 

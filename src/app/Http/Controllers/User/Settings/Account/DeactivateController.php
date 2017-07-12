@@ -14,7 +14,7 @@ class DeactivateController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['web', 'not.webmaster']);
+        $this->middleware(['web', 'not.main.webmaster']);
     }
 
     /**
