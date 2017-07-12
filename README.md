@@ -197,7 +197,7 @@ class User extends Authenticatable
 }
 ```
 
-Then finally add the following to `resources/lang/en/validation.php`:
+Add the following to `resources/lang/en/validation.php`:
 ``` bash
 return [
     // Other error messages...
