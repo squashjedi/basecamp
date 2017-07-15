@@ -16,7 +16,7 @@ class AddVerifiedAndVerifyTokenAndDeletedAtToUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->boolean('verified')->default(false);
             $table->string('verify_token')->nullable();
-            $table->timestamp('deleted_at')->nullable();;
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 
